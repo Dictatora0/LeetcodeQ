@@ -1,0 +1,15 @@
+# 编译产物
+build/bin/*
+build/debug/*
+*.o
+*.out
+*.exe
+
+# 系统文件
+.DS_Store
+.vscode/settings.json
+
+# 临时文件
+*~
+*.swp
+*.tmp

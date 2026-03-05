@@ -1,0 +1,40 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C++: 快速编译当前文件(Release)",
+            "command": "bash",
+            "args": [
+                "-lc",
+                "\"${workspaceFolder}/scripts/run_cpp.sh\" \"${file}\" --build-only"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "使用 scripts/run_cpp.sh 自动选择编译器并启用优化参数。"
+        },
+        {
+            "type": "shell",
+            "label": "C++: 快速编译并运行当前文件(Release)",
+            "command": "bash",
+            "args": [
+                "-lc",
+                "\"${workspaceFolder}/scripts/run_cpp.sh\" \"${file}\""
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ],
+    "version": "2.0.0"
+}
