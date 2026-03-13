@@ -7,13 +7,17 @@ using namespace std;
 
 class Solution {
 public:
-    // TODO: 实现解题方法
-    
+    int singleNumber(vector<int>& nums) {
+        
+        
+    }
 };
 
 int main() {
     Solution solution;
-    
+
+    cout << INT16_MIN << endl;
+
     // TODO: 添加测试用例
     
     return 0;
