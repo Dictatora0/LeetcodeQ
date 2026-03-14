@@ -3,13 +3,17 @@
 #include <algorithm>
 using namespace std;
 
-// LeetCode 128: 最长连续序列
 
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        
-        
+        int res = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            res ^= nums[i];
+        }
+        //异或运算满足交换律
+        return res;
     }
 };
 

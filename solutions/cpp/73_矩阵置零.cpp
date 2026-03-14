@@ -1,10 +1,9 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <climits>
 using namespace std;
 
 // LeetCode 73: 矩阵置零
+// 注意: 此文件为原始版本，完整文档版本请参考: solutions/array/leetcode_73_set_matrix_zeroes.cpp
 
 class Solution {
 public:
@@ -75,13 +74,3 @@ public:
         }
         }
 };
-
-int main() {
-    Solution solution;
-    
-    // TODO: 添加测试用例
-
-    cout << INT_MIN << endl;
-    
-    return 0;
-}
