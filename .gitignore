@@ -22,3 +22,10 @@ build/
 
 # 空目录占位符（保留 .gitkeep）
 !**/.gitkeep
+
+# 忽略 solutions/cpp 目录下的编译产物（无扩展名文件）
+# 匹配包含中文或下划线但没有扩展名的文件
+solutions/cpp/[0-9]*_*[!.]*
+solutions/cpp/[0-9]*_*
+!solutions/cpp/*.cpp
+!solutions/cpp/*.h
