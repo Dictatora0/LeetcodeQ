@@ -493,7 +493,6 @@ heap = [(3,3), (4,4)]
 int main() {
     Solution solution;
     Solution_Bucket solutionBucket;
-    Solution_QuickSelect solutionQS;
 
     // 测试用例 1：标准情况
     vector<int> nums1 = {1, 1, 1, 2, 2, 3};
