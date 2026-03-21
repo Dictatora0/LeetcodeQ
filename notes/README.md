@@ -1,32 +1,24 @@
 # 学习笔记目录
 
-本目录用于存放个人学习笔记、算法总结和刷题心得。
+本目录用于存放个人学习笔记、算法总结和面试准备资料。
 
-## 建议的笔记结构
+## 当前内容
 
-```
+```text
 notes/
-├── algorithm_summary/     # 算法总结
-│   ├── sliding_window.md
-│   ├── two_pointers.md
-│   └── ...
-├── problem_analysis/      # 难题分析
-│   ├── hard_problems.md
-│   └── ...
-├── interview_prep/        # 面试准备
-│   ├── common_mistakes.md
-│   └── ...
-└── learning_log/          # 学习日志
-    └── 2026-03.md
+├── learning_log/                  # 每次刷题后的记录
+└── interview_prep/                # 面试补强与复盘
+    └── internship_interview_gap_analysis.md
 ```
+
+## 建议继续补充的方向
+
+- `algorithm_summary/`：按题型整理常用模板和易错点
+- `problem_analysis/`：记录典型 hard 题和反思
+- `interview_prep/`：沉淀高频题、口播模板、易错清单
 
 ## 使用建议
 
-- 记录解题思路和心得
-- 总结常见错误和易错点
-- 整理面试高频题
-- 记录学习进度和计划
-
----
-
-**注意**: 本目录内容为个人笔记，不纳入版本控制（可在 .gitignore 中配置）。
+- 记录当天刷题的核心收获，而不是只记题号
+- 为每个高频专题沉淀 1 份“代表题 + 模板 + 易错点”总结
+- 面试前优先回看 `interview_prep/`，而不是从头翻整个仓库
