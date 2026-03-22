@@ -146,13 +146,21 @@
 - ✅ `127 / 133` 补充了图搜索和图建模（BFS 最短路径、图的深拷贝）
 - ✅ `547 / 684 / 721` 把并查集真正落地（从入门到高级应用）
 
-### 第三优先级：补变体和面试追问
+### 第三优先级：补变体和面试追问 ✅ 已完成
 
-- `40` 组合总和 II
-- `90` 子集 II
-- `91` 解码方法
-- `213` 打家劫舍 II
-- `875` 爱吃香蕉的珂珂
+- ~~`40` 组合总和 II~~ ✅
+- ~~`90` 子集 II~~ ✅
+- ~~`91` 解码方法~~ ✅
+- ~~`213` 打家劫舍 II~~ ✅
+- ~~`875` 爱吃香蕉的珂珂~~ ✅
+
+已新增到专题目录并补齐“常见变体 + 面试追问”：
+
+- `solutions/backtracking/leetcode_40_combination_sum_ii.cpp`
+- `solutions/backtracking/leetcode_90_subsets_ii.cpp`
+- `solutions/dynamic_programming/leetcode_91_decode_ways.cpp`
+- `solutions/dynamic_programming/leetcode_213_house_robber_ii.cpp`
+- `solutions/binary_search/leetcode_875_koko_eating_bananas.cpp`
 
 这批题的作用是让你在面试里更从容地回答：
 

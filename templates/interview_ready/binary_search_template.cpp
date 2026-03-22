@@ -157,9 +157,9 @@ public:
 
 class BinarySearchAnswer {
 public:
-    int binarySearchAnswer(vector<int>& nums, int target) {
-        int left = 最小可能答案;
-        int right = 最大可能答案;
+    int binarySearchAnswer(vector<int>& nums, int low, int high) {
+        int left = low;
+        int right = high;
 
         while (left < right) {
             int mid = left + (right - left) / 2;
@@ -401,62 +401,136 @@ private:
 
 /*
  * ============================================================================
- * 第五至十部分：面试技巧、易错点、复杂度、真题、示例、速查表
+ * 第五部分：面试技巧
  * ============================================================================
  */
 
 /*
- * 【面试技巧】
- * 1. 说明为什么用二分：有序、单调性
- * 2. 画图解释搜索过程
- * 3. 强调边界处理：left、right、mid 的取值
+ * 【30 秒讲清二分】
+ * 1. 先说明可二分依据：
+ *    "数组有序/答案空间有单调性，因此可以二分缩小范围。"
+ * 2. 再说明区间定义：
+ *    "我统一用 [left, right] 或 [left, right) 之一，避免边界混乱。"
+ * 3. 最后给收缩逻辑：
+ *    "通过 mid 判断目标落在左半还是右半，每轮排除一半。"
  *
- * 【易错点】
- * ❌ mid 计算溢出：用 left + (right - left) / 2
- * ❌ 死循环：left = mid 时要用 mid = left + (right - left + 1) / 2
- * ❌ 边界条件：left <= right vs left < right
- * ❌ 返回值：返回 left 还是 right
+ * 【面试官高频追问】
+ * Q1: 如何避免溢出？
+ * A1: mid = left + (right - left) / 2。
  *
- * 【复杂度】
- * 时间：O(logn)
- * 空间：O(1)
+ * Q2: 为什么答案二分成立？
+ * A2: check(x) 具有单调性，存在清晰分界点。
+ */
+
+/*
+ * ============================================================================
+ * 第六部分：易错点
+ * ============================================================================
+ */
+
+/*
+ * 【常见错误 1：区间与循环条件不匹配】
+ * ❌ [left,right] 却写 while(left < right)
+ * ✅ 闭区间对应 while(left <= right)
  *
- * 【高频题目】
- * ⭐⭐⭐⭐⭐ LC 35, LC 34, LC 33
- * ⭐⭐⭐⭐ LC 162, LC 69, LC 410
+ * 【常见错误 2：边界更新漏掉 mid】
+ * ❌ right = mid（闭区间下可能死循环）
+ * ✅ 闭区间写 right = mid - 1
  *
- * 【速查表】
- * // 基础二分
- * int left = 0, right = n - 1;
+ * 【常见错误 3：边界题返回值错位】
+ * ❌ 左边界题返回 right
+ * ✅ 左边界返回 left（按模板定义）
+ *
+ * 【常见错误 4：答案二分 check 方向写反】
+ * ✅ 可行时收右边界，不可行时收左边界（求最小可行值）
+ */
+
+/*
+ * ============================================================================
+ * 第七部分：复杂度分析
+ * ============================================================================
+ */
+
+/*
+ * 【时间复杂度】
+ * 每次排除一半，循环次数约 log2(n)
+ * 总时间：O(log n)
+ *
+ * 【空间复杂度】
+ * 迭代实现仅常数变量：O(1)
+ */
+
+/*
+ * ============================================================================
+ * 第八部分：真题实战
+ * ============================================================================
+ */
+
+/*
+ * ⭐ 简单
+ * 1. LC 704: 二分查找
+ * 2. LC 35: 搜索插入位置
+ *
+ * ⭐⭐ 中等（高频）
+ * 3. LC 34: 在排序数组中查找元素的第一个和最后一个位置 ⭐⭐⭐⭐⭐
+ * 4. LC 33: 搜索旋转排序数组 ⭐⭐⭐⭐⭐
+ * 5. LC 153: 寻找旋转排序数组中的最小值 ⭐⭐⭐⭐
+ * 6. LC 162: 寻找峰值 ⭐⭐⭐⭐
+ *
+ * ⭐⭐⭐ 进阶（答案二分）
+ * 7. LC 875: 爱吃香蕉的珂珂
+ * 8. LC 410: 分割数组的最大值 ⭐⭐⭐⭐
+ */
+
+/*
+ * ============================================================================
+ * 第九部分：完整示例
+ * ============================================================================
+ */
+
+void testBoundarySearch() {
+    LeftBoundBinarySearch leftSolver;
+    RightBoundBinarySearch rightSolver;
+    vector<int> nums = {1, 2, 2, 2, 3, 4};
+
+    cout << "target=2 左边界: " << leftSolver.leftBound(nums, 2) << endl;
+    cout << "target=2 右边界: " << rightSolver.rightBound(nums, 2) << endl;
+}
+
+/*
+ * ============================================================================
+ * 第十部分：速查表
+ * ============================================================================
+ */
+
+/*
+ * ┌─────────────────────────────────────────────────────────────────────────┐
+ * │                  Binary Search 算法速查表                                │
+ * └─────────────────────────────────────────────────────────────────────────┘
+ *
+ * 【标准查找】
  * while (left <= right) {
- *     int mid = left + (right - left) / 2;
+ *     mid = left + (right - left) / 2;
  *     if (nums[mid] == target) return mid;
- *     else if (nums[mid] < target) left = mid + 1;
+ *     if (nums[mid] < target) left = mid + 1;
  *     else right = mid - 1;
  * }
  *
- * // 左边界
- * int left = 0, right = n;
+ * 【左边界】
  * while (left < right) {
- *     int mid = left + (right - left) / 2;
+ *     mid = left + (right - left) / 2;
  *     if (nums[mid] < target) left = mid + 1;
  *     else right = mid;
  * }
- * return left;
  *
- * // 右边界
- * int left = 0, right = n;
- * while (left < right) {
- *     int mid = left + (right - left) / 2;
- *     if (nums[mid] <= target) left = mid + 1;
- *     else right = mid;
- * }
- * return left - 1;
+ * 【答案二分】
+ * if (check(mid)) right = mid;
+ * else left = mid + 1;
  *
- * 【三种模板对比】
- * 1. 基础：left <= right, return mid
- * 2. 左边界：left < right, right = mid, return left
- * 3. 右边界：left < right, left = mid + 1, return left - 1
+ * 【关键词】
+ * ✓ 有序数组
+ * ✓ 查找边界
+ * ✓ 最小可行值 / 最大可行值
  */
 
 int main() {
@@ -465,8 +539,8 @@ int main() {
     int target = 7;
 
     cout << "查找 " << target << " 的位置: " << sol.binarySearch(nums, target) << endl;
+    testBoundarySearch();
     cout << "二分查找算法模板测试完成" << endl;
-
     return 0;
 }
 

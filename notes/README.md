@@ -8,7 +8,8 @@
 notes/
 ├── learning_log/                  # 每次刷题后的记录
 └── interview_prep/                # 面试补强与复盘
-    └── internship_interview_gap_analysis.md
+    ├── internship_interview_gap_analysis.md
+    └── tree_graph_strengthening_plan.md
 ```
 
 ## 建议继续补充的方向
@@ -22,3 +23,10 @@ notes/
 - 记录当天刷题的核心收获，而不是只记题号
 - 为每个高频专题沉淀 1 份“代表题 + 模板 + 易错点”总结
 - 面试前优先回看 `interview_prep/`，而不是从头翻整个仓库
+
+## 推荐先看
+
+- 差距诊断与补强路线：
+  `interview_prep/internship_interview_gap_analysis.md`
+- 树图专项训练（14 天）：
+  `interview_prep/tree_graph_strengthening_plan.md`

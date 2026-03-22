@@ -1,19 +1,49 @@
 # LeetCode 算法学习仓库
 
-这是一个以 C++ 为主的刷题仓库，目标不是只“刷过题”，而是把常见题型整理成可复习、可讲解、可运行的面试素材。
+这是一个以 C++ 为主的刷题与面试准备仓库。目标不只是“做出题”，而是沉淀可复习、可口述、可运行的算法资产。
 
 ## 当前概览
 
-- `solutions/`：**129** 份按专题整理的题解，批量编译全部通过
-- `solutions/cpp/`：**108** 份历史代码，用于保留原始思路和迁移前版本
-- `templates/`：算法模板、题型识别和代码片段
-- `notes/`：学习日志与面试准备笔记
+- `solutions/`：**150** 份专题题解（不含历史归档）
+- `solutions/cpp/`：**108** 份历史代码（迁移前版本保留）
+- `templates/`：模板体系（题型识别 + 面试模板 + 代码骨架）
+- `notes/`：学习日志与面试补强文档
 
-目前覆盖的核心专题包括：
+当前覆盖专题包括数组、链表、二叉树、图、动态规划、滑动窗口、前缀和、单调栈、回溯、贪心、设计题、Trie、位运算等。
 
-- 数组、链表、二叉树、动态规划
-- 滑动窗口、前缀和、单调栈、堆
-- 贪心、回溯、图、设计题、Trie、位运算
+## 快速开始
+
+### 1) 编译运行单题
+
+```bash
+./scripts/run_cpp.sh solutions/binary_tree/leetcode_101_symmetric_tree.cpp
+./scripts/run_cpp.sh solutions/binary_tree/leetcode_101_symmetric_tree.cpp --build-only
+MODE=debug ./scripts/run_cpp.sh solutions/binary_tree/leetcode_101_symmetric_tree.cpp
+```
+
+### 2) 批量编译题解
+
+```bash
+./scripts/compile_all.sh
+./scripts/compile_all.sh solutions/binary_tree
+MODE=debug ./scripts/compile_all.sh
+```
+
+## 模板体系（推荐入口）
+
+`templates/` 目录按“识别 -> 落地 -> 复盘”拆成三层：
+
+- `problem_patterns/`：
+  先判断题型，解决“这题该用什么算法”
+- `interview_ready/`：
+  看完整面试讲解，解决“这题怎么讲清楚”
+- `core_templates/`：
+  拿最小代码骨架，解决“这题怎么快速开写”
+
+建议流程：
+1. 先读 [`templates/PATTERN_RECOGNITION_GUIDE.md`](templates/PATTERN_RECOGNITION_GUIDE.md)
+2. 再看 [`templates/README.md`](templates/README.md)
+3. 最后按算法进入 [`templates/interview_ready/README.md`](templates/interview_ready/README.md)
 
 ## 仓库结构
 
@@ -40,10 +70,10 @@ Leetcode/
 │   ├── two_pointers/           # 双指针
 │   └── cpp/                    # 历史代码归档
 ├── templates/
-│   ├── core_templates/         # 核心算法模板
-│   ├── interview_ready/        # 面试导向模板
-│   ├── problem_patterns/       # 题型识别
-│   └── code_snippets/          # 常用片段
+│   ├── core_templates/         # 最小代码模板
+│   ├── interview_ready/        # 面试完整模板
+│   ├── problem_patterns/       # 题型识别指南
+│   └── code_snippets/          # 工具代码片段
 ├── scripts/
 │   ├── run_cpp.sh              # 单题编译运行
 │   └── compile_all.sh          # 批量编译
@@ -52,74 +82,30 @@ Leetcode/
     └── interview_prep/         # 面试补强笔记
 ```
 
-## 使用方法
+## 阅读建议
 
-### 编译单个题目
+- 想快速刷题：
+  直接从 `solutions/` 对应专题开始
+- 想系统补盲点：
+  先看 `templates/problem_patterns/` 再回做题
+- 想准备面试口述：
+  重点看 `templates/interview_ready/*.cpp` 的第 5~10 部分
 
-```bash
-./scripts/run_cpp.sh solutions/binary_tree/leetcode_101_symmetric_tree.cpp
-./scripts/run_cpp.sh solutions/binary_tree/leetcode_101_symmetric_tree.cpp --build-only
-MODE=debug ./scripts/run_cpp.sh solutions/binary_tree/leetcode_101_symmetric_tree.cpp
-```
+## 推荐阅读链接
 
-### 批量编译专题题解
+- 模板总览：[`templates/README.md`](templates/README.md)
+- 题型识别总指南：[`templates/PATTERN_RECOGNITION_GUIDE.md`](templates/PATTERN_RECOGNITION_GUIDE.md)
+- 面试模板索引：[`templates/interview_ready/README.md`](templates/interview_ready/README.md)
+- 笔记索引：[`notes/README.md`](notes/README.md)
+- 面试补强建议：[`notes/interview_prep/internship_interview_gap_analysis.md`](notes/interview_prep/internship_interview_gap_analysis.md)
+- 树图专项强化：[`notes/interview_prep/tree_graph_strengthening_plan.md`](notes/interview_prep/tree_graph_strengthening_plan.md)
 
-```bash
-./scripts/compile_all.sh
-./scripts/compile_all.sh solutions/binary_tree
-MODE=debug ./scripts/compile_all.sh
-```
+## 环境要求
 
-## 推荐阅读入口
-
-- 复习算法模板：[`templates/interview_ready/README.md`](templates/interview_ready/README.md)
-- 看题型识别：[`templates/PATTERN_RECOGNITION_GUIDE.md`](templates/PATTERN_RECOGNITION_GUIDE.md)
-- 看模板体系说明：[`templates/README.md`](templates/README.md)
-- 看学习笔记：[`notes/README.md`](notes/README.md)
-- 看本轮面试补强建议：[`notes/interview_prep/internship_interview_gap_analysis.md`](notes/interview_prep/internship_interview_gap_analysis.md)
-
-## 代码特点
-
-分类目录下的大多数题解都尽量包含：
-
-- 中文题意概述
-- 思路拆解与关键观察
-- 至少一种可面试讲清楚的解法
-- 复杂度分析
-- `main()` 示例或测试输出
-
-`solutions/cpp/` 则保留原始版本，可能包含：
-
-- 更简洁但未充分整理的实现
-- 迁移前代码
-- `TODO` 或占位测试
-
-因此面试准备时，建议优先阅读 `solutions/` 下的专题版本。
-
-## 面试导向建议
-
-从当前仓库分布看，你在动态规划、二叉树、链表、数组上的积累已经不错；接下来更值得补的是：
-
-- 双指针
-- 二分边界题 / 二分答案
-- 图搜索
-- 并查集
-
-建议先补这一组高频题：
-
-- `33`, `34`, `153`
-- `11`, `26`
-- `236`, `124`
-- `547`, `684`
-
-详细说明见 [`notes/interview_prep/internship_interview_gap_analysis.md`](notes/interview_prep/internship_interview_gap_analysis.md)。
-
-## 开发环境
-
-- 编译器：`g++` / `clang++`
-- C++ 标准：`C++17`
+- 编译器：`g++` 或 `clang++`
+- 标准：`C++17`
 - 系统：macOS / Linux / Windows (WSL)
 
 ---
 
-最后更新：2026-03-21
+最后更新：2026-03-22
