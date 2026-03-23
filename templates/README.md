@@ -9,7 +9,6 @@
 
 | 目录 | 作用 | 使用时机 |
 |---|---|---|
-| `core_templates/` | 最小可复用代码骨架 | 你已经确定算法，只想快速开写 |
 | `interview_ready/` | 面试版完整模板（含讲解、易错点、真题、速查） | 你要系统复习或准备口述 |
 | `problem_patterns/` | 题型识别指南（关键词、选型、陷阱） | 你还没确定用什么算法 |
 | `code_snippets/` | 构树、快读快写、图遍历等工具代码 | 你要补辅助代码时 |
@@ -20,8 +19,7 @@
    `templates/problem_patterns/`
 2. 再看完整讲解，确认思路与边界：
    `templates/interview_ready/`
-3. 最后复制精简模板并填题目逻辑：
-   `templates/core_templates/`
+3. 复制模板代码并填题目逻辑
 4. 用 2-3 组边界样例自测：
    空输入、最小规模、极端重复值
 
@@ -64,9 +62,9 @@
 - 题目做不出来：
   先看 `templates/PATTERN_RECOGNITION_GUIDE.md`
 - 知道算法但写不顺：
-  看对应 `interview_ready/*.cpp` 的第 3、4、10 部分
+  看对应 `interview_ready/*.cpp` 的完整模板
 - 面试前冲刺：
-  只看 `interview_ready/*.cpp` 的第 5~10 部分
+  重点看 `interview_ready/*.cpp` 的核心部分
 
 ## 质量标准
 
