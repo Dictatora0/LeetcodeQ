@@ -1,0 +1,52 @@
+/*
+题目 / 示例名称：爬楼梯
+核心知识点：一维 DP、状态转移
+适用场景：从前一个状态和前前一个状态转移到当前状态
+关键思路：到第 i 阶的方法数 = 到第 i-1 阶的方法数 + 到第 i-2 阶的方法数
+时间复杂度：O(n)
+空间复杂度：O(n)
+常见错误：
+1. `dp[0]` 和 `dp[1]` 初始值没想清楚。
+2. 只背“像斐波那契”，却讲不清状态定义。
+3. `n = 1` 时越界访问 `dp[2]`。
+示例输入：
+5
+示例输出：
+8
+手动推演：
+到第 5 阶的方法来自第 4 阶和第 3 阶，所以答案是 5 + 3 = 8。
+对比说明：
+- 这题能压缩成 O(1) 空间。
+- 先学会标准数组写法，再做空间优化更稳。
+*/
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) {
+        return 0;
+    }
+
+    if (n <= 1) {
+        cout << 1 << '\n';
+        return 0;
+    }
+
+    vector<long long> dp(n + 1, 0);
+    dp[0] = 1;
+    dp[1] = 1;
+
+    for (int i = 2; i <= n; ++i) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+
+    cout << dp[n] << '\n';
+    return 0;
+}

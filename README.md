@@ -8,6 +8,7 @@
 - `solutions/cpp/`：**108** 份历史代码（迁移前版本保留）
 - `templates/`：模板体系（题型识别 + 面试模板 + 代码骨架）
 - `notes/`：学习日志与面试补强文档
+- `interview_algorithm_toolbox/`：面向 90 分钟 ACM 风格笔试的教学型复习知识库
 
 当前覆盖专题包括数组、链表、二叉树、图、动态规划、滑动窗口、前缀和、单调栈、回溯、贪心、设计题、Trie、位运算等。
 
@@ -32,6 +33,13 @@ MODE=debug ./scripts/run_cpp.sh solutions/binary_tree/leetcode_101_symmetric_tre
 ./scripts/compile_all.sh
 ./scripts/compile_all.sh solutions/binary_tree
 MODE=debug ./scripts/compile_all.sh
+```
+
+### 3) 编译 / 验证笔试知识库
+
+```bash
+./scripts/compile_interview_toolbox.sh
+./scripts/run_smoke_tests.sh
 ```
 
 ## 模板体系（推荐入口）
@@ -79,9 +87,16 @@ Leetcode/
 │   ├── interview_ready/        # 面试完整模板
 │   ├── problem_patterns/       # 题型识别指南
 │   └── code_snippets/          # 工具代码片段
+├── interview_algorithm_toolbox/
+│   ├── 00_cpp_templates/       # ACM 模板与 C++ 工具箱
+│   ├── 12_real_past_problems/  # 四道重点真题复盘
+│   ├── 13_common_mistakes/     # 高频错误清单
+│   └── scripts/                # 编译与 smoke test 脚本
 ├── scripts/
 │   ├── run_cpp.sh              # 单题编译运行
-│   └── compile_all.sh          # 批量编译
+│   ├── compile_all.sh          # 原题解批量编译
+│   ├── compile_interview_toolbox.sh # 知识库批量编译入口
+│   └── run_smoke_tests.sh      # 知识库 smoke tests 入口
 └── notes/
     ├── learning_log/           # 学习日志
     └── interview_prep/         # 面试补强笔记
@@ -95,12 +110,21 @@ Leetcode/
   先看 `templates/problem_patterns/` 再回做题
 - 想准备面试口述：
   重点看 `templates/interview_ready/*.cpp` 的第 5~10 部分
+- 想短期冲刺 ACM 风格笔试：
+  从 `interview_algorithm_toolbox/README.md` 开始
+- 想在笔试前 10 分钟做压缩复习：
+  直接看 `interview_algorithm_toolbox/90_minute_exam_checklist.md`
+- 想做 90 分钟计时模拟：
+  直接看 `interview_algorithm_toolbox/90_minute_mock_set.md`
 
 ## 推荐阅读链接
 
 - 模板总览：[`templates/README.md`](templates/README.md)
 - 题型识别总指南：[`templates/PATTERN_RECOGNITION_GUIDE.md`](templates/PATTERN_RECOGNITION_GUIDE.md)
 - 面试模板索引：[`templates/interview_ready/README.md`](templates/interview_ready/README.md)
+- 笔试复习知识库：[`interview_algorithm_toolbox/README.md`](interview_algorithm_toolbox/README.md)
+- 90 分钟笔试速查：[`interview_algorithm_toolbox/90_minute_exam_checklist.md`](interview_algorithm_toolbox/90_minute_exam_checklist.md)
+- 90 分钟模拟题单：[`interview_algorithm_toolbox/90_minute_mock_set.md`](interview_algorithm_toolbox/90_minute_mock_set.md)
 - 笔记索引：[`notes/README.md`](notes/README.md)
 - 面试补强建议：[`notes/interview_prep/internship_interview_gap_analysis.md`](notes/interview_prep/internship_interview_gap_analysis.md)
 - 树图专项强化：[`notes/interview_prep/tree_graph_strengthening_plan.md`](notes/interview_prep/tree_graph_strengthening_plan.md)
