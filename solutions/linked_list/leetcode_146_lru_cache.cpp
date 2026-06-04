@@ -67,108 +67,148 @@ lRUCache.get(4);    // 返回 4
 using namespace std;
 
 /*
-方法一：我的原始解法 - 哈希表 + 双向链表 (Approach 1: My Original Solution - HashMap + Doubly Linked List)
+方法一：手写双向链表 + 哈希表 (Approach 1: Hand-Written Doubly Linked List + HashMap)
 
 核心思想
 --------
-使用 std::list (双向链表) 存储 (key, value) 对，最近使用的放在链表头部。
-使用 std::unordered_map 存储 key 到链表迭代器的映射，实现 O(1) 查找。
+使用手写的双向链表（带哨兵节点 head/tail）维护访问顺序，最近使用的紧挨 head，最久未使用的紧挨 tail。
+使用 unordered_map<int, Node*> 实现 O(1) 查找。
+
+与使用 std::list 的区别：
+- std::list + splice 方案需要存储迭代器，迭代器在节点被删除后失效
+- 手写链表直接操作指针，语义更清晰，面试中更常见，也更容易手撕
 
 数据结构：
-- list<pair<int, int>> cache：双向链表，存储 (key, value)
-  - 头部 (front)：最近使用
-  - 尾部 (back)：最久未使用
-- unordered_map<int, list<...>::iterator> map：哈希表，key -> 链表节点迭代器
+- 哈希表 cache：key -> Node*，O(1) 定位节点
+- 双向链表：head <-> node1 <-> node2 <-> ... <-> tail
+  - head 后面：最近使用
+  - tail 前面：最久未使用
+  - head/tail 是哨兵节点，简化边界判断
+
+为什么哈希表存 Node* 而不是存 value？
+- 如果哈希表只存 key -> value，当需要把某个节点移到头部时，必须从链表头开始遍历才能找到这个节点，时间复杂度退化为 O(n)
+- 存 key -> Node* 的核心意义：通过 key 直接拿到链表中对应节点的指针，无需遍历
+- 这样 moveToHead / removeNode 操作可以直接通过指针修改 prev/next 指针，O(1) 完成
+- 淘汰最久未使用的节点时，tail->prev 就是目标节点，通过 node->key 反向从哈希表中删除对应条目
+
+一句话总结：哈希表解决「根据 key 快速定位节点」，双向链表解决「快速调整顺序和淘汰」，两者配合实现全程 O(1)。
+
+核心操作（均为 O(1)）：
+- removeNode(node)：将 node 从链表中摘除
+- addToHead(node)：将 node 插入到 head 之后
+- moveToHead(node)：先摘除，再插到头部（标记为最近使用）
+- removeTail()：移除 tail 前面的节点（最久未使用）
 
 操作流程：
 1. get(key)：
-   - 在 map 中查找 key
-   - 如果不存在，返回 -1
-   - 如果存在，将对应节点移到链表头部（标记为最近使用），返回 value
+   - 哈希表查找，不存在返回 -1
+   - 存在则 moveToHead，返回 value
 
 2. put(key, value)：
-   - 如果 key 已存在：更新 value，将节点移到链表头部
-   - 如果 key 不存在：
-     a. 检查容量，如果已满，删除链表尾部节点（最久未使用）
-     b. 在链表头部插入新节点
-     c. 在 map 中记录映射关系
-
-关键技巧：
-- 使用 list::splice() 实现 O(1) 节点移动
-- splice(pos, list, it) 将 it 指向的元素移动到 pos 位置
+   - key 已存在：更新 value，moveToHead
+   - key 不存在：创建新节点，addToHead，size++
+     - 若超容量：removeTail，从哈希表中删除对应 key，delete 节点
 
 复杂度分析
 ---------
 时间复杂度：O(1)
-- get 操作：哈希表查找 O(1) + 链表移动 O(1)
-- put 操作：哈希表查找/插入 O(1) + 链表插入/删除 O(1)
+- get：哈希表查找 O(1) + 链表操作 O(1)
+- put：哈希表查找/插入 O(1) + 链表操作 O(1)
 
 空间复杂度：O(capacity)
-- 链表最多存储 capacity 个节点
-- 哈希表最多存储 capacity 个映射
+- 哈希表 + 链表各存储 capacity 个节点
 */
 class LRUCache {
 private:
-    int cap;  // 缓存容量
+    struct Node {
+        int key;
+        int value;
+        Node* prev;
+        Node* next;
 
-    // 双向链表，存储 pair<key, value>
-    // 最近使用的放在 front，最久未使用的在 back
-    std::list<std::pair<int, int>> cache;
+        Node(int k, int v) : key(k), value(v), prev(nullptr), next(nullptr) {}
+    };
 
-    // 哈希表，存储 key 到链表迭代器的映射
-    std::unordered_map<int, std::list<std::pair<int, int>>::iterator> map;
+    int capacity;
+    int size;
+    unordered_map<int, Node*> cache;
 
-    // 辅助函数：将已存在的节点提升到"最近使用"状态
-    // 即将节点移动到链表头部
-    void makeRecently(int key) {
-        auto it = map[key];  // 获取节点的迭代器
-        // splice: 将 it 指向的元素从当前位置移动到 cache.begin() 位置
-        // 时间复杂度 O(1)
-        cache.splice(cache.begin(), cache, it);
+    Node* head;  // 哨兵头节点
+    Node* tail;  // 哨兵尾节点
+
+    // 从链表中摘除 node（O(1)）
+    void removeNode(Node* node) {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+    }
+
+    // 将 node 插入到 head 之后（O(1)）
+    void addToHead(Node* node) {
+        node->next = head->next;
+        node->prev = head;
+
+        head->next->prev = node;
+        head->next = node;
+    }
+
+    // 先摘除再插到头部，标记为最近使用（O(1)）
+    void moveToHead(Node* node) {
+        removeNode(node);
+        addToHead(node);
+    }
+
+    // 移除 tail 前面的节点（最久未使用），返回被移除节点（O(1)）
+    Node* removeTail() {
+        Node* node = tail->prev;
+        removeNode(node);
+        return node;
     }
 
 public:
-    // 构造函数：初始化容量
-    LRUCache(int capacity) : cap(capacity) {}
+    LRUCache(int capacity) {
+        this->capacity = capacity;
+        this->size = 0;
 
-    // 获取 key 对应的 value
+        // 创建哨兵节点，避免处理空链表的边界情况
+        head = new Node(-1, -1);
+        tail = new Node(-1, -1);
+
+        head->next = tail;
+        tail->prev = head;
+    }
+
     int get(int key) {
-        // 如果 key 不存在，返回 -1
-        if (map.find(key) == map.end()) {
+        if (cache.find(key) == cache.end()) {
             return -1;
         }
 
-        // key 存在：将其标记为最近使用
-        makeRecently(key);
+        Node* node = cache[key];
+        moveToHead(node);
 
-        // 返回 value
-        return map[key]->second;
+        return node->value;
     }
 
-    // 插入或更新 (key, value)
     void put(int key, int value) {
-        // 情况 1：key 已存在
-        if (map.find(key) != map.end()) {
-            // 更新 value
-            map[key]->second = value;
-            // 提升为最近使用
-            makeRecently(key);
-            return;
-        }
+        if (cache.find(key) != cache.end()) {
+            // key 已存在：更新 value，移到头部
+            Node* node = cache[key];
+            node->value = value;
+            moveToHead(node);
+        } else {
+            // key 不存在：创建新节点插入头部
+            Node* node = new Node(key, value);
+            cache[key] = node;
+            addToHead(node);
+            size++;
 
-        // 情况 2：key 不存在
-        // 检查容量是否已满
-        if (cache.size() >= cap) {
-            // 淘汰最久未使用的元素（链表尾部）
-            int lastKey = cache.back().first;
-            map.erase(lastKey);      // 从哈希表中删除
-            cache.pop_back();        // 从链表中删除
+            if (size > capacity) {
+                // 超出容量：淘汰最久未使用的（tail 前面那个）
+                Node* removed = removeTail();
+                cache.erase(removed->key);
+                delete removed;
+                size--;
+            }
         }
-
-        // 插入新节点到链表头部（最近使用）
-        cache.push_front({key, value});
-        // 在哈希表中记录映射
-        map[key] = cache.begin();
     }
 };
 
@@ -277,11 +317,11 @@ public:
 /*
 复杂度对比 (Complexity Comparison)
 ---------------------------------
-方法一：哈希表 + 双向链表（使用迭代器）
+方法一：手写双向链表 + 哈希表（哨兵节点）
 - 时间复杂度：O(1)
 - 空间复杂度：O(capacity)
-- 优点：满足题目要求，效率最高
-- 缺点：实现稍复杂，需要理解迭代器和 splice
+- 优点：面试中最常见写法，语义清晰，不依赖 STL 迭代器
+- 缺点：需要手动管理内存（new/delete）
 
 方法二：朴素实现（使用 remove）
 - 时间复杂度：O(n)
@@ -289,8 +329,9 @@ public:
 - 优点：实现简单直观
 - 缺点：不满足 O(1) 要求，效率低
 
-关键优化点：
-使用迭代器避免了 O(n) 的链表遍历，将时间复杂度从 O(n) 降低到 O(1)。
+关键对比：
+方法一手写链表用哨兵节点消除边界判断，所有操作均为纯指针操作，O(1) 且常数更小。
+方法二使用 list::remove() 需要 O(n) 遍历，仅作为反面教材理解为什么不能暴力维护顺序。
 */
 
 /*

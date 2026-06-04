@@ -5,6 +5,10 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+source "$SCRIPT_DIR/build_common.sh"
+
 # 颜色输出
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -15,16 +19,25 @@ NC='\033[0m' # No Color
 # 默认编译 solutions 下所有分类目录
 TARGET_DIR="${1:-solutions}"
 
-# 确定编译模式
-MODE="${MODE:-release}"
+if [[ "$TARGET_DIR" != /* ]]; then
+    TARGET_DIR="$PROJECT_ROOT/$TARGET_DIR"
+fi
 
-if [ "$MODE" == "debug" ]; then
-    OUTPUT_DIR="build/debug"
-    CXXFLAGS="-std=c++17 -g -O0 -Wall -Wextra"
+if [ ! -d "$TARGET_DIR" ]; then
+    echo -e "${RED}错误: 目录不存在: $TARGET_DIR${NC}"
+    exit 1
+fi
+
+TARGET_DIR="$(normalize_path "$PROJECT_ROOT" "$TARGET_DIR")"
+
+# 确定编译模式
+BUILD_MODE="$(build_mode)"
+OUTPUT_DIR="$(build_output_root "$PROJECT_ROOT")"
+CXXFLAGS="$(build_cxxflags)"
+
+if [ "$BUILD_MODE" == "debug" ]; then
     echo -e "${YELLOW}编译模式: Debug${NC}"
 else
-    OUTPUT_DIR="build/bin"
-    CXXFLAGS="-std=c++17 -O2 -Wall"
     echo -e "${YELLOW}编译模式: Release${NC}"
 fi
 
@@ -41,8 +54,9 @@ echo "========================================"
 # 查找所有 leetcode_*.cpp 文件
 while IFS= read -r -d '' file; do
     TOTAL=$((TOTAL + 1))
-    FILENAME=$(basename "$file" .cpp)
-    OUTPUT_FILE="$OUTPUT_DIR/$FILENAME"
+    OUTPUT_FILE="$(output_file_for_source "$PROJECT_ROOT" "$file" "$OUTPUT_DIR")"
+
+    mkdir -p "$(dirname "$OUTPUT_FILE")"
 
     echo -n "[$TOTAL] 编译 $file ... "
 

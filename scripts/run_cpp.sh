@@ -5,6 +5,10 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+source "$SCRIPT_DIR/build_common.sh"
+
 # 颜色输出
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -27,32 +31,33 @@ if [ "$2" == "--build-only" ]; then
     BUILD_ONLY=true
 fi
 
+# 归一化源文件路径
+if [[ "$SOURCE_FILE" != /* ]]; then
+    SOURCE_FILE="$PROJECT_ROOT/$SOURCE_FILE"
+fi
+
 # 检查源文件是否存在
 if [ ! -f "$SOURCE_FILE" ]; then
     echo -e "${RED}错误: 文件不存在: $SOURCE_FILE${NC}"
     exit 1
 fi
 
-# 获取文件名（不含路径和扩展名）
-FILENAME=$(basename "$SOURCE_FILE" .cpp)
+SOURCE_FILE="$(normalize_path "$PROJECT_ROOT" "$SOURCE_FILE")"
 
 # 确定编译模式 (release 或 debug)
-MODE="${MODE:-release}"
+BUILD_MODE="$(build_mode)"
+OUTPUT_DIR="$(build_output_root "$PROJECT_ROOT")"
+CXXFLAGS="$(build_cxxflags)"
 
 # 创建输出目录
-if [ "$MODE" == "debug" ]; then
-    OUTPUT_DIR="build/debug"
-    CXXFLAGS="-std=c++17 -g -O0 -Wall -Wextra"
+if [ "$BUILD_MODE" == "debug" ]; then
     echo -e "${YELLOW}编译模式: Debug (调试模式)${NC}"
 else
-    OUTPUT_DIR="build/bin"
-    CXXFLAGS="-std=c++17 -O2 -Wall"
     echo -e "${YELLOW}编译模式: Release (优化模式)${NC}"
 fi
 
-mkdir -p "$OUTPUT_DIR"
-
-OUTPUT_FILE="$OUTPUT_DIR/$FILENAME"
+OUTPUT_FILE="$(output_file_for_source "$PROJECT_ROOT" "$SOURCE_FILE" "$OUTPUT_DIR")"
+mkdir -p "$(dirname "$OUTPUT_FILE")"
 
 # 编译
 echo -e "${GREEN}正在编译: $SOURCE_FILE${NC}"

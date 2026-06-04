@@ -21,6 +21,11 @@
 MODE=debug ./scripts/run_cpp.sh solutions/binary_tree/leetcode_101_symmetric_tree.cpp
 ```
 
+编译产物会统一写入 `build/` 目录，并保留源文件的相对路径，例如：
+
+- `practice/demo.cpp` -> `build/release/practice/demo`
+- `solutions/binary_tree/leetcode_101_symmetric_tree.cpp` -> `build/release/solutions/binary_tree/leetcode_101_symmetric_tree`
+
 ### 2) 批量编译题解
 
 ```bash
