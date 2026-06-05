@@ -53,22 +53,27 @@ int main() {
     }
 
     unordered_map<long long, int> first_position;
+    // 前缀和 0 在位置 0 先出现一次，方便统计从开头开始的合法区间。
     first_position[0] = 0;
 
     long long prefix_sum = 0;
     int best_length = 0;
 
     for (int i = 1; i <= n; ++i) {
+        // 一边扫描，一边维护前 i 个数的和。
         prefix_sum += a[i];
 
         long long needed = prefix_sum - k;
         if (first_position.count(needed)) {
+            // 如果之前出现过 prefix_sum - k，
+            // 那么两次前缀和之间的区间和恰好是 k。
             int current_length = i - first_position[needed];
             if (current_length > best_length) {
                 best_length = current_length;
             }
         }
 
+        // 求最长长度时，只保留第一次出现位置，区间才可能更长。
         if (!first_position.count(prefix_sum)) {
             first_position[prefix_sum] = i;
         }

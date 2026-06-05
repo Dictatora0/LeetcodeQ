@@ -46,8 +46,10 @@ int main() {
     while (left < right) {
         int mid = left + (right - left) / 2;
         if (a[mid] >= target) {
+            // mid 已经满足条件，但还要继续向左找更早的位置。
             right = mid;
         } else {
+            // mid 不满足条件，答案只能在右边。
             left = mid + 1;
         }
     }

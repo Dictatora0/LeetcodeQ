@@ -55,6 +55,7 @@ int main() {
     }
 
     unordered_map<long long, long long> remainder_count;
+    // 余数 0 先出现一次，对应“前缀和还没开始累加”的状态。
     remainder_count[0] = 1;
 
     long long prefix_sum = 0;
@@ -69,6 +70,7 @@ int main() {
         // 之前所有余数相同的前缀，都能和当前前缀组成一个合法子数组。
         answer += remainder_count[remainder];
 
+        // 把当前余数记下来，供后续位置继续配对使用。
         ++remainder_count[remainder];
     }
 

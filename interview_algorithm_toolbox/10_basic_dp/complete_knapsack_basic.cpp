@@ -52,14 +52,18 @@ int main() {
         cin >> weight[i] >> value[i];
     }
 
+    // dp[j] 表示容量不超过 j 时的最大价值。
     vector<long long> dp(capacity + 1, 0);
 
     for (int i = 1; i <= n; ++i) {
         for (int j = weight[i]; j <= capacity; ++j) {
+            // 完全背包容量正序枚举，表示当前物品可以在这一轮被重复使用。
+            // 因此 dp[j - weight[i]] 里可能已经包含了当前物品的贡献。
             dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
         }
     }
 
+    // 容量上限为 capacity 时的最优值。
     cout << dp[capacity] << '\n';
     return 0;
 }

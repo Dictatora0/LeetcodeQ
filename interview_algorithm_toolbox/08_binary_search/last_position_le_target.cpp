@@ -46,12 +46,15 @@ int main() {
     while (left < right) {
         int mid = left + (right - left) / 2;
         if (a[mid] > target) {
+            // mid 已经太大，右边更不可能是答案。
             right = mid;
         } else {
+            // mid 仍然满足 <= target，尝试把边界推进到更右边。
             left = mid + 1;
         }
     }
 
+    // 循环结束后，left 指向第一个 > target 的位置，所以答案是 left - 1。
     cout << (left - 1) << '\n';
     return 0;
 }

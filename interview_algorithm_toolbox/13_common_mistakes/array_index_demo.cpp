@@ -42,12 +42,14 @@ int main() {
 
     vector<int> a(n + 1, 0);
     for (int i = 1; i <= n; ++i) {
+        // 题面本来就是 1-based，这里直接从 1 读到 n。
         cin >> a[i];
     }
 
     while (q--) {
         int index;
         cin >> index;
+        // 直接访问 a[index]，不需要再做 -1 转换。
         cout << a[index] << '\n';
     }
 

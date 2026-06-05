@@ -92,6 +92,7 @@ int main() {
         cin >> fractions[i].numerator >> fractions[i].denominator;
     }
 
+    // 排序规则完全由 compareFraction 决定：更大的分数排在前面。
     sort(fractions.begin(), fractions.end(), compareFraction);
 
     for (const Fraction& fraction : fractions) {

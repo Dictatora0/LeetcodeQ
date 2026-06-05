@@ -63,6 +63,7 @@ int main() {
     }
 
     unordered_map<int, int> first_position;
+    // 前缀和 0 在位置 0 先出现一次。
     first_position[0] = 0;
 
     int prefix_sum = 0;
@@ -70,17 +71,21 @@ int main() {
 
     for (int i = 1; i <= n; ++i) {
         if (a[i] == 0) {
+            // 把 0 看成 -1。
             prefix_sum -= 1;
         } else {
+            // 把 1 看成 +1。
             prefix_sum += 1;
         }
 
         if (first_position.count(prefix_sum)) {
+            // 同一个前缀和再次出现，中间区间和就是 0。
             int length = i - first_position[prefix_sum];
             if (length > best_length) {
                 best_length = length;
             }
         } else {
+            // 只记录第一次出现位置，才能得到最长区间。
             first_position[prefix_sum] = i;
         }
     }

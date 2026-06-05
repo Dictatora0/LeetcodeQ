@@ -57,8 +57,10 @@ bool canSplitWithinMParts(const vector<long long>& a, int m, long long limit) {
 
     for (long long x : a) {
         if (current_sum + x <= limit) {
+            // 当前元素还能放进这一段，就尽量继续塞。
             current_sum += x;
         } else {
+            // 一旦超 limit，只能另开一段。
             ++used_parts;
             current_sum = x;
         }
@@ -82,15 +84,19 @@ int main() {
 
     for (int i = 0; i < n; ++i) {
         cin >> a[i];
+        // 答案下界至少是数组最大值。
         left = max(left, a[i]);
+        // 答案上界可以取整个数组总和。
         right += a[i];
     }
 
     while (left < right) {
         long long mid = left + (right - left) / 2;
         if (canSplitWithinMParts(a, m, mid)) {
+            // mid 可行，尝试继续压小最大段和。
             right = mid;
         } else {
+            // mid 不可行，说明限制太紧。
             left = mid + 1;
         }
     }

@@ -43,7 +43,9 @@ long long suffixOnesValue(long long x) {
     int count = 0;
 
     while ((x & 1LL) == 1LL) {
+        // 最低位还是 1，说明后缀连续 1 还能继续延长。
         ++count;
+        // 右移一位，继续检查新的最低位。
         x >>= 1;
     }
 
@@ -60,6 +62,7 @@ long long solveBruteforce(long long n) {
     long long answer = 0;
 
     for (long long i = 1; i <= n; ++i) {
+        // 逐个计算 f(i)，这是最直观的定义实现。
         answer += suffixOnesValue(i);
     }
 

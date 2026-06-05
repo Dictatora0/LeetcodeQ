@@ -62,8 +62,10 @@ int main() {
     int last_right = -2000000000;
 
     for (const Interval& interval : intervals) {
+        // 当前区间如果和上一个已选区间不冲突，就把它选进答案。
         if (interval.left >= last_right) {
             ++answer;
+            // 记录最新已选区间的右端点，供后面继续判冲突。
             last_right = interval.right;
         }
     }

@@ -49,11 +49,13 @@ int main() {
     int slow = 0;
     for (int fast = 1; fast < n; ++fast) {
         if (a[fast] != a[slow]) {
+            // fast 找到一个新值，就把它覆盖到去重结果的下一个位置。
             ++slow;
             a[slow] = a[fast];
         }
     }
 
+    // slow 停在去重后最后一个有效元素位置，所以新长度是 slow + 1。
     int new_length = slow + 1;
     cout << new_length << '\n';
     for (int i = 0; i < new_length; ++i) {

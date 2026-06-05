@@ -48,12 +48,14 @@ int main() {
     for (int i = 1; i <= n; ++i) {
         int x;
         cin >> x;
+        // 先把“是否为奇数”转成 0/1，再做前缀和。
         prefix[i] = prefix[i - 1] + (x % 2 != 0 ? 1 : 0);
     }
 
     while (q--) {
         int l, r;
         cin >> l >> r;
+        // 区间奇数个数就是这段 0/1 数组的区间和。
         cout << prefix[r] - prefix[l - 1] << '\n';
     }
 

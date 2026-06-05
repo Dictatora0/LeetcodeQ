@@ -51,17 +51,21 @@ int main() {
         cin >> coin[i];
     }
 
+    // dp[sum] 表示凑出总和为 sum 的方案数。
     vector<long long> dp(target + 1, 0);
+    // 凑出和为 0 的方案数是 1：什么都不选。
     dp[0] = 1;
 
     for (int i = 1; i <= n; ++i) {
         for (int sum = coin[i]; sum <= target; ++sum) {
             // 如果最后一次使用的是 coin[i]，那么前一状态就是 sum - coin[i]。
             // 因为 coin[i] 可以无限使用，所以这里仍然是正序枚举。
+            // 又因为“物品在外层”，所以统计的是组合数而不是排列数。
             dp[sum] += dp[sum - coin[i]];
         }
     }
 
+    // target 这一格就是最终方案数。
     cout << dp[target] << '\n';
     return 0;
 }

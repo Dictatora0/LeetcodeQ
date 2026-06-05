@@ -40,8 +40,11 @@ int main() {
         return 0;
     }
 
+    // 模加法可以先各自取模，再相加后再取模。
     cout << "add " << ((a % mod + b % mod) % mod) << '\n';
+    // 模减法可能得到负数，所以要加一个 mod 再取模修正回来。
     cout << "sub " << (((a - b) % mod + mod) % mod) << '\n';
+    // 模乘法里，通常也先把两个数压到模意义下再相乘。
     cout << "mul " << ((a % mod) * (b % mod) % mod) << '\n';
     return 0;
 }

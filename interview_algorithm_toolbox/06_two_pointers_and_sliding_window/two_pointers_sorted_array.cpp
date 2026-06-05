@@ -45,14 +45,17 @@ int main() {
     int right = n;
 
     while (left < right) {
+        // 数组有序时，当前和太小就只能增大左边，太大就只能减小右边。
         long long current_sum = a[left] + a[right];
         if (current_sum == target) {
             cout << left << ' ' << right << '\n';
             return 0;
         }
         if (current_sum < target) {
+            // 和太小，需要更大的数。
             ++left;
         } else {
+            // 和太大，需要更小的数。
             --right;
         }
     }

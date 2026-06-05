@@ -55,12 +55,15 @@ int main() {
 
     for (int i = 0; i < n; ++i) {
         cin >> a[i];
+        // map 会按 key 自动排序，适合后面有序输出。
         ++ordered_frequency[a[i]];
+        // unordered_map 更适合后面做“出现次数查询”。
         ++hash_frequency[a[i]];
     }
 
     cout << "ordered\n";
     for (const auto& [value, count] : ordered_frequency) {
+        // 遍历 map 时，value 是按升序出现的。
         cout << value << ' ' << count << '\n';
     }
 
@@ -68,6 +71,7 @@ int main() {
     while (q--) {
         int x;
         cin >> x;
+        // 没出现过的 key 会得到默认值 0。
         cout << hash_frequency[x] << '\n';
     }
 

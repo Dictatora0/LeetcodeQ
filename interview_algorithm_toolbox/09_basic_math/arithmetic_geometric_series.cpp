@@ -39,8 +39,10 @@ long long fastPower(long long base, long long exponent) {
     long long result = 1;
     while (exponent > 0) {
         if (exponent & 1LL) {
+            // 当前二进制位是 1，就把这一轮的 base 乘进答案。
             result *= base;
         }
+        // base 平方，对应指数每次右移一位。
         base *= base;
         exponent >>= 1;
     }
@@ -58,14 +60,19 @@ int main() {
     }
     cin >> b1 >> r >> m;
 
+    // 等差数列第 n 项公式。
     long long arithmetic_nth = a1 + (n - 1) * d;
+    // 等差数列前 n 项和公式。
     long long arithmetic_sum = n * (a1 + arithmetic_nth) / 2;
 
+    // 等比数列第 m 项 = 首项 * 公比^(m-1)。
     long long geometric_nth = b1 * fastPower(r, m - 1);
     long long geometric_sum = 0;
     if (r == 1) {
+        // 公比为 1 时，每一项都等于首项，不能套一般公式。
         geometric_sum = b1 * m;
     } else {
+        // r != 1 时，使用等比前 n 项和公式。
         geometric_sum = b1 * (fastPower(r, m) - 1) / (r - 1);
     }
 

@@ -70,11 +70,14 @@ struct Player {
 bool comparePlayer(const Player& a, const Player& b) {
     // compare(a, b) 返回 true，表示 a 应排在 b 前面。
     if (a.solved != b.solved) {
+        // 通过题数更多的人排前面。
         return a.solved > b.solved;
     }
     if (a.penalty != b.penalty) {
+        // 通过题数相同时，罚时更小的人排前面。
         return a.penalty < b.penalty;
     }
+    // 前两项都相同，再按名字字典序升序排。
     return a.name < b.name;
 }
 

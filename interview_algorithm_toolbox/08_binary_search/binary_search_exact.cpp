@@ -44,14 +44,17 @@ int main() {
     int right = n - 1;
 
     while (left <= right) {
+        // 用这种写法求 mid，可以避免 left + right 直接相加溢出。
         int mid = left + (right - left) / 2;
         if (a[mid] == target) {
             cout << mid << '\n';
             return 0;
         }
         if (a[mid] < target) {
+            // 中点值太小，目标只能在右边。
             left = mid + 1;
         } else {
+            // 中点值太大，目标只能在左边。
             right = mid - 1;
         }
     }

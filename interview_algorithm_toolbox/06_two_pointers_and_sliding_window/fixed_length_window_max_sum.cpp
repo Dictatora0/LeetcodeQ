@@ -55,12 +55,14 @@ int main() {
 
     long long window_sum = 0;
     for (int i = 0; i < k; ++i) {
+        // 先求出第一个长度为 k 的窗口和。
         window_sum += a[i];
     }
 
     long long best = window_sum;
 
     for (int right = k; right < n; ++right) {
+        // 窗口向右滑一步：加上新进来的元素，减去离开的元素。
         window_sum += a[right];
         window_sum -= a[right - k];
 

@@ -37,6 +37,7 @@ void dfs(int x, int y,
          vector<vector<int>>& visited) {
     int n = static_cast<int>(grid.size());
     int m = static_cast<int>(grid[0].size());
+    // 进入一个格子后，第一件事就是标记访问，避免后面重复搜索。
     visited[x][y] = 1;
 
     for (int dir = 0; dir < 4; ++dir) {
@@ -50,6 +51,7 @@ void dfs(int x, int y,
             continue;
         }
 
+        // 把和当前格子连通的相邻 '1' 继续递归搜索下去。
         dfs(nx, ny, grid, visited);
     }
 }
@@ -69,11 +71,13 @@ int main() {
     }
 
     vector<vector<int>> visited(n, vector<int>(m, 0));
+    // components 统计一共有多少块彼此不连通的 '1' 区域。
     int components = 0;
 
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < m; ++j) {
             if (grid[i][j] == '1' && !visited[i][j]) {
+                // 每发现一个还没访问过的 '1'，就说明找到了一整块新连通区域。
                 ++components;
                 dfs(i, j, grid, visited);
             }

@@ -44,6 +44,7 @@ int main() {
 
     vector<int> freq(26, 0);
     for (char ch : s) {
+        // 用 ch - 'a' 把字符映射到 0..25。
         ++freq[ch - 'a'];
     }
 
@@ -52,6 +53,7 @@ int main() {
     while (q--) {
         char query;
         cin >> query;
+        // 查询时也按同样的映射方式取下标。
         cout << freq[query - 'a'] << '\n';
     }
 

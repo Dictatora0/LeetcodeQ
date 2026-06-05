@@ -42,17 +42,22 @@ int main() {
     }
 
     vector<int> dp(n, 1);
+    // 每个元素单独都能构成长度为 1 的递增子序列。
     int answer = 1;
 
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < i; ++j) {
             if (a[j] < a[i]) {
+                // 如果 a[j] 能接到 a[i] 前面，
+                // 那么“以 i 结尾”的 LIS 就可以从 j 转移过来。
                 dp[i] = max(dp[i], dp[j] + 1);
             }
         }
+        // 扫完所有前驱后，更新全局最长长度。
         answer = max(answer, dp[i]);
     }
 
+    // answer 表示所有“以 i 结尾”的 LIS 里的最大值。
     cout << answer << '\n';
     return 0;
 }

@@ -41,14 +41,20 @@ int main() {
         cin >> a[i];
     }
 
+    // best 记录全局最优答案，current 记录“以当前位置结尾”的最优值。
     long long best = a[0];
     long long current = a[0];
 
     for (int i = 1; i < n; ++i) {
+        // “以 i 结尾的最大子数组和”只有两种选择：
+        // 1. 之前的连续段继续接上 a[i]
+        // 2. 从 a[i] 自己重新开始
         current = max(a[i], current + a[i]);
+        // 全局答案就是所有“以 i 结尾”的最好值里的最大值。
         best = max(best, current);
     }
 
+    // best 不是某个固定位置的值，而是整段数组上的最大连续子数组和。
     cout << best << '\n';
     return 0;
 }

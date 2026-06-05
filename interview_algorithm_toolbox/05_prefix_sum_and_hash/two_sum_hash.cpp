@@ -46,10 +46,12 @@ int main() {
 
     for (int i = 1; i <= n; ++i) {
         long long need = target - a[i];
+        // 如果补数之前已经出现过，就找到了一组合法答案。
         if (first_position.count(need)) {
             cout << first_position[need] << ' ' << i << '\n';
             return 0;
         }
+        // 只记录第一次出现位置，让下标更稳定，也避免覆盖更早位置。
         if (!first_position.count(a[i])) {
             first_position[a[i]] = i;
         }

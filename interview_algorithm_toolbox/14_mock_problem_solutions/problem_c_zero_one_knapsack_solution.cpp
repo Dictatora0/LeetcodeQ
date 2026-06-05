@@ -73,6 +73,7 @@ int main() {
 
     for (int i = 1; i <= n; ++i) {
         for (int j = capacity; j >= weight[i]; --j) {
+            // 容量倒序保证“每件物品最多一次”这个限制不被破坏。
             dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
         }
     }

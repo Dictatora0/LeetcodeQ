@@ -62,8 +62,10 @@ int main() {
     int last_second = -2000000000;
 
     for (const PairNode& pair_node : pairs) {
+        // 只有前一个数对的 second 严格小于当前 first，才能接成链。
         if (last_second < pair_node.first_value) {
             ++answer;
+            // 选了当前 pair 后，新的链尾就是它的 second。
             last_second = pair_node.second_value;
         }
     }

@@ -56,6 +56,7 @@ int main() {
     }
 
     unordered_map<long long, long long> count;
+    // 前缀和 0 先出现一次，表示“空前缀”。
     count[0] = 1;
 
     long long prefix_sum = 0;
@@ -66,9 +67,11 @@ int main() {
 
         long long needed = prefix_sum - k;
         if (count.count(needed)) {
+            // 每个之前出现过的 needed，都能和当前位置组成一个合法子数组。
             answer += count[needed];
         }
 
+        // 先统计答案，再登记当前前缀和，避免把空区间错误算进去。
         ++count[prefix_sum];
     }
 

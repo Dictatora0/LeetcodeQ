@@ -56,10 +56,12 @@ int main() {
 
     while (i < n && j < m) {
         if (cookie[j] >= appetite[i]) {
+            // 当前最小可用饼干已经能满足当前最小胃口，立刻匹配最省资源。
             ++satisfied;
             ++i;
             ++j;
         } else {
+            // 当前饼干太小，连最小胃口都满足不了，只能尝试更大的饼干。
             ++j;
         }
     }

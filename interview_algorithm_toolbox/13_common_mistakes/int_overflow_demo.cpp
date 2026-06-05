@@ -35,6 +35,7 @@ int main() {
         return 0;
     }
 
+    // 这里用 long long 保存乘积，先保证结果本身是对的。
     long long product = a * b;
     bool overflow_int = (product > numeric_limits<int>::max() ||
                          product < numeric_limits<int>::min());

@@ -21,7 +21,7 @@
 - `debug_print_template.cpp`
   复习如何本地调试但不污染评测输出。
 - `cpp_interview_toolbox.cpp`
-  复习常用片段：排序、前缀和、哈希、位运算、二分、`gcd/lcm`、DFS/BFS。
+  复习常用片段：排序、`1-based / 0-based` 前缀和、哈希、位运算、二分、`gcd/lcm`，以及 `DFS / BFS` 速查。
 
 ## 编译示例
 

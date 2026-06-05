@@ -46,6 +46,7 @@ int main() {
 
     for (int i = 0; i < n; ++i) {
         if (i > 0) {
+            // 只在元素之间输出空格，避免行首和行尾多空格。
             cout << ' ';
         }
         cout << a[i];

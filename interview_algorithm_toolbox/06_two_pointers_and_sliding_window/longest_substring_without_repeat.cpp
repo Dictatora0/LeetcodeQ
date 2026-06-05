@@ -41,10 +41,13 @@ int main() {
 
     for (int right = 0; right < static_cast<int>(s.size()); ++right) {
         if (last_position.count(s[right])) {
+            // left 只能右移不能左移，所以要取 max 防止窗口回退。
             left = max(left, last_position[s[right]] + 1);
         }
 
+        // 更新当前字符的最近出现位置。
         last_position[s[right]] = right;
+        // 当前窗口 [left, right] 内没有重复字符。
         best_length = max(best_length, right - left + 1);
     }
 

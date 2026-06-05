@@ -42,7 +42,9 @@ int main() {
         cin >> a[i];
     }
 
+    // lower_bound：第一个 >= target 的位置。
     int lower = static_cast<int>(lower_bound(a.begin(), a.end(), target) - a.begin());
+    // upper_bound：第一个 > target 的位置。
     int upper = static_cast<int>(upper_bound(a.begin(), a.end(), target) - a.begin());
 
     cout << "lower_bound " << lower << '\n';

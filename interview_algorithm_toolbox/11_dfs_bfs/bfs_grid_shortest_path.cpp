@@ -63,6 +63,7 @@ int main() {
     vector<vector<int>> dist(n, vector<int>(m, -1));
     queue<pair<int, int>> q;
     q.push(start);
+    // 起点到自己的距离定义为 0。
     dist[start.first][start.second] = 0;
 
     while (!q.empty()) {
@@ -70,6 +71,7 @@ int main() {
         q.pop();
 
         if (current == target) {
+            // BFS 第一次到达终点时，这个距离就是最短路长度。
             cout << dist[current.first][current.second] << '\n';
             return 0;
         }
@@ -85,7 +87,9 @@ int main() {
                 continue;
             }
 
+            // 第一次到达某个格子时，当前路径一定是最短路径。
             dist[nx][ny] = dist[current.first][current.second] + 1;
+            // 入队后，后面会按层次继续向外扩展。
             q.push({nx, ny});
         }
     }

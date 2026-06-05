@@ -50,8 +50,10 @@ bool isValidABString(const string& s) {
 
     for (char ch : s) {
         if (ch == 'a') {
+            // 把 a 当成左括号，看到一个就让 balance 加 1。
             ++balance;
         } else if (ch == 'b') {
+            // 把 b 当成右括号，看到一个就让 balance 减 1。
             --balance;
         } else {
             return false;
@@ -79,6 +81,7 @@ int main() {
     while (t--) {
         string s;
         cin >> s;
+        // 合法就输出 YES，否则输出 NO。
         cout << (isValidABString(s) ? "YES" : "NO") << '\n';
     }
 

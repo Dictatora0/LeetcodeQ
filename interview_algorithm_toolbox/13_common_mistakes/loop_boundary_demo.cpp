@@ -44,6 +44,7 @@ int main() {
 
     int increasing_pairs = 0;
     for (int i = 0; i + 1 < n; ++i) {
+        // 只有 i + 1 还在数组里时，才安全比较相邻两个元素。
         if (a[i] < a[i + 1]) {
             ++increasing_pairs;
         }

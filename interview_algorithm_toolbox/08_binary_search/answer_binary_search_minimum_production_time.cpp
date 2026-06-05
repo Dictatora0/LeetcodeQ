@@ -43,6 +43,7 @@ bool canProduce(const vector<long long>& time_cost, long long target, long long 
     long long produced = 0;
 
     for (long long cost : time_cost) {
+        // 每台机器在 total_time 时间内的产量可以独立计算。
         produced += total_time / cost;
 
         // 只要已经达到目标，就可以提前返回，避免累加过大。
@@ -70,6 +71,7 @@ int main() {
     for (int i = 0; i < n; ++i) {
         cin >> time_cost[i];
         if (i == 0 || time_cost[i] < min_time_cost) {
+            // 记录最快机器，用来构造一个一定可行的右边界。
             min_time_cost = time_cost[i];
         }
     }
@@ -80,8 +82,10 @@ int main() {
     while (left < right) {
         long long mid = left + (right - left) / 2;
         if (canProduce(time_cost, target, mid)) {
+            // 当前时间已经够，继续尝试更短时间。
             right = mid;
         } else {
+            // 当前时间不够，必须放宽到更大值。
             left = mid + 1;
         }
     }

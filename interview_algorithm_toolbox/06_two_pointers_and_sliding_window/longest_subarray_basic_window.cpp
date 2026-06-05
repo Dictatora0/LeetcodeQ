@@ -46,13 +46,16 @@ int main() {
     int best_length = 0;
 
     for (int right = 0; right < n; ++right) {
+        // 右端点加入窗口。
         window_sum += a[right];
 
         while (left <= right && window_sum > k) {
+            // 只要窗口和超限，就不断缩小左端点直到重新合法。
             window_sum -= a[left];
             ++left;
         }
 
+        // 这里窗口 [left, right] 一定满足 sum <= k，可以尝试更新答案。
         int current_length = right - left + 1;
         if (current_length > best_length) {
             best_length = current_length;

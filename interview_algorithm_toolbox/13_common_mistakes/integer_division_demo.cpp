@@ -39,10 +39,13 @@ int main() {
         return 0;
     }
 
+    // 整数相除会直接截断小数部分。
     cout << "int_div " << (a / b) << '\n';
     cout << fixed << setprecision(1);
+    // 至少一边转成 double，才能得到真正的小数结果。
     cout << "real_div " << (static_cast<double>(a) / static_cast<double>(b)) << '\n';
     cout.unsetf(ios::floatfield);
+    // 正整数向上取整常用 (a + b - 1) / b。
     cout << "ceil_div_positive " << ((a + b - 1) / b) << '\n';
     return 0;
 }

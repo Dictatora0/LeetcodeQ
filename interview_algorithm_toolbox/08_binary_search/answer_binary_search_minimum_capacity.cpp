@@ -46,8 +46,10 @@ bool canFinish(const vector<int>& weights, int days, long long capacity) {
 
     for (int weight : weights) {
         if (current_load + weight <= capacity) {
+            // 当前货物还能装进今天这一趟，就继续装。
             current_load += weight;
         } else {
+            // 再装就超容量，只能新开一天。
             ++used_days;
             current_load = weight;
         }
@@ -71,15 +73,19 @@ int main() {
 
     for (int i = 0; i < n; ++i) {
         cin >> weights[i];
+        // 容量至少要能单独装下最重的货物。
         left = max(left, static_cast<long long>(weights[i]));
+        // 容量取总和时，一天就能运完，一定可行。
         right += weights[i];
     }
 
     while (left < right) {
         long long mid = left + (right - left) / 2;
         if (canFinish(weights, days, mid)) {
+            // mid 已经可行，继续尝试更小容量。
             right = mid;
         } else {
+            // mid 不可行，容量必须再增大。
             left = mid + 1;
         }
     }

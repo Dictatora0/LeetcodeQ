@@ -142,7 +142,15 @@ vector<long long> buildPrefix(const vector<int>& a) {
     vector<long long> prefix(n + 1, 0);
 
     for (int i = 1; i <= n; ++i) {
-        // 1-based 写法最适合区间和：sum[l..r] = prefix[r] - prefix[l - 1]
+        // 这是最常见的“前面补一个 0”的写法。
+        // prefix[i] 表示前 i 个元素的和，也就是 a[0] 到 a[i - 1] 的和。
+        // 这种写法的好处是：
+        // 1. 区间和公式统一
+        // 2. l = 1 时不用单独特判
+        // 3. 笔试里最稳
+        //
+        // 如果题目区间下标按 1-based 给出：
+        // sum[l..r] = prefix[r] - prefix[l - 1]
         prefix[i] = prefix[i - 1] + a[i - 1];
     }
 
@@ -151,6 +159,69 @@ vector<long long> buildPrefix(const vector<int>& a) {
 
 long long rangeSum(const vector<long long>& prefix, int l, int r) {
     return prefix[r] - prefix[l - 1];
+}
+
+vector<long long> buildPrefixZeroBased(const vector<int>& a) {
+    int n = static_cast<int>(a.size());
+    vector<long long> prefix(n, 0);
+
+    if (n == 0) {
+        return prefix;
+    }
+
+    // 0-based 写法里，prefix[i] 表示 a[0..i] 的区间和。
+    // 这套写法和很多题目的数组下标风格一致，但查询时要记得处理 l = 0。
+    prefix[0] = a[0];
+    for (int i = 1; i < n; ++i) {
+        prefix[i] = prefix[i - 1] + a[i];
+    }
+
+    return prefix;
+}
+
+long long rangeSumZeroBased(const vector<long long>& prefix, int l, int r) {
+    // 0-based 区间和公式：
+    // 1. 如果 l == 0，答案就是 prefix[r]
+    // 2. 否则答案是 prefix[r] - prefix[l - 1]
+    //
+    // 例如数组 a = [3, 1, 4, 2]
+    // prefix = [3, 4, 8, 10]
+    // sum[1..3] = 1 + 4 + 2 = 7
+    // 对应 prefix[3] - prefix[0] = 10 - 3 = 7
+    if (l == 0) {
+        return prefix[r];
+    }
+    return prefix[r] - prefix[l - 1];
+}
+
+void prefixSumNotes() {
+    /*
+    前缀和的核心思想：
+    prefix[i] 记录“前面这一段的累计和”，这样多次区间求和可以 O(1) 查询。
+
+    两套最常见写法：
+
+    1. 1-based 风格（最推荐笔试优先写）
+       vector<long long> prefix(n + 1, 0);
+       for (int i = 1; i <= n; ++i) {
+           prefix[i] = prefix[i - 1] + a[i - 1];
+       }
+       sum[l..r] = prefix[r] - prefix[l - 1]
+
+    2. 0-based 风格（和原数组下标一致）
+       vector<long long> prefix(n);
+       prefix[0] = a[0];
+       for (int i = 1; i < n; ++i) {
+           prefix[i] = prefix[i - 1] + a[i];
+       }
+       如果 l == 0，sum[l..r] = prefix[r]
+       否则 sum[l..r] = prefix[r] - prefix[l - 1]
+
+    高频错误：
+    1. 0-based 写法忘了特判 l == 0。
+    2. 区间端点是 1-based，但你套了 0-based 公式。
+    3. 前缀和数组用 int，结果总和溢出。
+    */
 }
 
 // ------------------------------------------------------------------
@@ -295,10 +366,61 @@ int firstPositionGE(const vector<int>& a, int target) {
 // ------------------------------------------------------------------
 // 10. gcd 与 lcm
 // ------------------------------------------------------------------
+long long gcdValue(long long a, long long b) {
+    // std::gcd(a, b) 返回最大公约数。
+    // 例如 gcd(12, 18) = 6，因为 6 是同时整除 12 和 18 的最大正整数。
+    return gcd(a, b);
+}
+
 long long safeLcm(long long a, long long b) {
+    // 最小公倍数 lcm(a, b) 表示同时是 a 和 b 倍数的最小正整数。
+    // 基本公式：
+    // lcm(a, b) = a / gcd(a, b) * b
+    //
+    // 为什么不是直接写 a * b / gcd(a, b)？
+    // 因为 a * b 可能先溢出，所以要“先除后乘”。
+    //
+    // 例如 a = 12, b = 18
+    // gcd = 6
+    // lcm = 12 / 6 * 18 = 36
+    if (a == 0 || b == 0) {
+        return 0;
+    }
     long long g = gcd(a, b);
-    // 先除再乘，避免 a * b 直接溢出。
     return a / g * b;
+}
+
+void gcdLcmNotes() {
+    /*
+    gcd:
+      greatest common divisor，最大公约数。
+      典型用途：约分、判断能否整除、把比例化成最简。
+
+    lcm:
+      least common multiple，最小公倍数。
+      典型用途：求周期重合时间、多个循环多久再次同时发生。
+
+    常见写法：
+      long long g = std::gcd(a, b);
+      long long l = a / g * b;
+
+    为什么先除再乘？
+      因为 a * b 可能先超过 long long 范围。
+
+    什么时候用 gcd？
+    1. 分数约分
+    2. 求多个数的公因子
+    3. 判断两数按步长变化后能否相遇
+
+    什么时候用 lcm？
+    1. 两个周期题求“多久重合一次”
+    2. 多个循环同步问题
+
+    高频错误：
+    1. 把 lcm 写成 a * b / gcd(a, b)，先乘导致溢出。
+    2. 没考虑 a 或 b 为 0。
+    3. 只会背公式，不知道 gcd/lcm 分别解决什么问题。
+    */
 }
 
 // ------------------------------------------------------------------
@@ -312,6 +434,16 @@ void dfsGrid(int x, int y,
              vector<vector<int>>& visited) {
     int n = static_cast<int>(grid.size());
     int m = static_cast<int>(grid[0].size());
+
+    // DFS 的核心思想：
+    // 从当前点出发，沿着一个方向不断走到底，再回溯回来。
+    // 适合做：
+    // 1. 连通块统计
+    // 2. 可达性判断
+    // 3. 枚举所有可能路径 / 状态（题目规模较小时）
+    //
+    // 在网格题里，visited[x][y] = 1 表示这个格子已经归属于某个连通块，
+    // 后面就不要重复走了。
     visited[x][y] = 1;
 
     for (int dir = 0; dir < 4; ++dir) {
@@ -328,6 +460,27 @@ void dfsGrid(int x, int y,
     }
 }
 
+int countGridComponents(const vector<string>& grid) {
+    int n = static_cast<int>(grid.size());
+    int m = static_cast<int>(grid[0].size());
+    vector<vector<int>> visited(n, vector<int>(m, 0));
+    int components = 0;
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            if (grid[i][j] == '#' || visited[i][j]) {
+                continue;
+            }
+
+            // 每找到一个还没访问过的空地，就说明发现了一个新连通块。
+            ++components;
+            dfsGrid(i, j, grid, visited);
+        }
+    }
+
+    return components;
+}
+
 int bfsGridShortestPath(const vector<string>& grid,
                         pair<int, int> start,
                         pair<int, int> target) {
@@ -336,6 +489,12 @@ int bfsGridShortestPath(const vector<string>& grid,
     vector<vector<int>> dist(n, vector<int>(m, -1));
     queue<pair<int, int>> q;
 
+    // BFS 的核心思想：
+    // 按“层”扩展，离起点距离为 0 的点先出队，
+    // 再处理距离为 1 的点、距离为 2 的点……
+    //
+    // 因此在“无权图最短路”里，BFS 非常合适。
+    // 网格上下左右每走一步代价都相同，所以它本质上也是无权图。
     q.push(start);
     dist[start.first][start.second] = 0;
 
@@ -364,6 +523,36 @@ int bfsGridShortestPath(const vector<string>& grid,
     }
 
     return -1;
+}
+
+void graphSearchNotes() {
+    /*
+    DFS 和 BFS 怎么选？
+
+    1. DFS：
+       - 更适合连通块、可达性、回溯、递归枚举
+       - 常见问法：
+         “有多少个岛屿”
+         “这个点能不能走到那个点”
+         “枚举所有可能方案”
+
+    2. BFS：
+       - 更适合无权图最短路
+       - 常见问法：
+         “最少走多少步”
+         “最短操作次数”
+         “从起点扩散到全图需要多久”
+
+    网格题快速识别：
+    - 问连通块数量：优先 DFS 或 BFS 都行
+    - 问最短步数：优先 BFS
+
+    高频错误：
+    1. 求最短路却用了 DFS，结果复杂度高且容易错。
+    2. DFS / BFS 都忘了做 visited 或 dist 标记，导致重复搜索。
+    3. BFS 出队时不记录距离，最后不知道最短步数是多少。
+    4. 网格越界判断写错，尤其是 nx / ny 的上下界。
+    */
 }
 
 // ------------------------------------------------------------------

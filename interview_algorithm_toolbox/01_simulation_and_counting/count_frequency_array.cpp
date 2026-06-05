@@ -41,6 +41,8 @@ int main() {
         ++freq[ch - 'a'];
     }
 
+
+
     for (int i = 0; i < 26; ++i) {
         if (freq[i] > 0) {
             cout << static_cast<char>('a' + i) << ' ' << freq[i] << '\n';

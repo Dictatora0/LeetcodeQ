@@ -45,12 +45,15 @@ int main() {
     for (int i = 1; i <= n; ++i) {
         long long x;
         cin >> x;
+        // prefix[i] 表示前 i 个数的和。
+        // 这样后面就能用“两个前缀和相减”直接得到任意区间和。
         prefix[i] = prefix[i - 1] + x;
     }
 
     while (q--) {
         int l, r;
         cin >> l >> r;
+        // 区间 [l, r] 的和 = 前 r 个数的和 - 前 l-1 个数的和。
         cout << prefix[r] - prefix[l - 1] << '\n';
     }
 

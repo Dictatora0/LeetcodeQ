@@ -31,8 +31,10 @@ bool compareByLastDigit(const int& a, const int& b) {
     int da = a % 10;
     int db = b % 10;
     if (da != db) {
+        // 个位数小的排前面。
         return da < db;
     }
+    // 个位数相同时，再按整体数值升序排，保持规则完整。
     return a < b;
 }
 

@@ -68,8 +68,10 @@ int main() {
     int last_point = -2000000000;
 
     for (const Segment& segment : segments) {
+        // 如果上一次选的点不在当前区间内，就必须新放一个点。
         if (last_point < segment.left || last_point > segment.right) {
             ++answer;
+            // 把点放在当前区间最右端，能尽量兼顾后面更多区间。
             last_point = segment.right;
         }
     }

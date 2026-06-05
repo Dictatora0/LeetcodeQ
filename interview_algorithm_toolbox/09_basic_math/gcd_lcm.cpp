@@ -37,7 +37,9 @@ int main() {
         return 0;
     }
 
+    // gcd 表示同时整除 a 和 b 的最大正整数。
     long long g = gcd(a, b);
+    // lcm 先除后乘，避免 a * b 先溢出。
     long long l = a / g * b;
 
     cout << "gcd " << g << '\n';

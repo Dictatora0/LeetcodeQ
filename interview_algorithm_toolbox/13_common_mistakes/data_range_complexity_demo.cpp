@@ -38,6 +38,7 @@ int main() {
     }
 
     const long double limit = 1e8L;
+    // n log n 是竞赛里很常见的一条经验边界线。
     long double nlogn = (n <= 1.0L ? 0.0L : n * log2(n));
 
     cout << "O(n) " << (n <= limit ? "YES" : "NO") << '\n';

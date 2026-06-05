@@ -43,6 +43,7 @@ int main() {
         int n;
         cin >> n;
 
+        // 把容器定义在循环内部，每组数据都会自动重新初始化。
         unordered_set<int> distinct_values;
         for (int i = 0; i < n; ++i) {
             int x;

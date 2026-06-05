@@ -39,6 +39,7 @@ int main() {
     for (int i = 0; i < n; ++i) {
         int x;
         cin >> x;
+        // 新元素总是从队尾进入。
         q.push(x);
     }
 
@@ -48,6 +49,7 @@ int main() {
             cout << ' ';
         }
         first = false;
+        // 先访问队头，再把它弹出，这就是先进先出。
         cout << q.front();
         q.pop();
     }

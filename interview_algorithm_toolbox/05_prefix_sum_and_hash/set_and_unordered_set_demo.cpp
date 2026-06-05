@@ -49,9 +49,12 @@ int main() {
         cin >> x;
 
         if (seen.count(x)) {
+            // 之前见过这个数，说明存在重复。
             has_duplicate = true;
         }
+        // unordered_set 负责判重。
         seen.insert(x);
+        // set 负责去重并维护有序结果。
         ordered_unique.insert(x);
     }
 
@@ -59,6 +62,7 @@ int main() {
     cout << "unique_count " << ordered_unique.size() << '\n';
     cout << "ordered";
     for (int x : ordered_unique) {
+        // set 的遍历顺序天然是从小到大。
         cout << ' ' << x;
     }
     cout << '\n';

@@ -35,8 +35,11 @@ int main() {
         return 0;
     }
 
+    // x % 2 == 0 表示最低层的奇偶判断：能被 2 整除就是偶数。
     cout << (x % 2 == 0 ? "even" : "odd") << '\n';
+    // x % d == 0 表示没有余数，也就是 x 能被 d 整除。
     cout << (x % d == 0 ? "divisible" : "not_divisible") << '\n';
+    // 如果题目问“还差多少”“剩下多少”，余数往往就是第一观察对象。
     cout << "remainder " << (x % d) << '\n';
     return 0;
 }

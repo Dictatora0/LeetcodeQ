@@ -47,6 +47,7 @@ int main() {
     }
 
     unordered_map<int, int> first_position;
+    // 前缀和 0 在位置 0 先出现一次。
     first_position[0] = 0;
 
     int prefix_sum = 0;
@@ -54,12 +55,15 @@ int main() {
 
     for (int i = 1; i <= n; ++i) {
         if (a[i] == 0) {
+            // 把 0 看成 -1。
             prefix_sum -= 1;
         } else {
+            // 把 1 看成 +1。
             prefix_sum += 1;
         }
 
         if (first_position.count(prefix_sum)) {
+            // 同一个前缀和再次出现，说明中间这段区间和为 0。
             int current_length = i - first_position[prefix_sum];
             if (current_length > best_length) {
                 best_length = current_length;

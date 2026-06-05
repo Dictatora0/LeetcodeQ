@@ -53,6 +53,7 @@ bool canSurvive(const vector<vector<long long>>& grid, long long initial_health)
 
     vector<vector<long long>> dp(n + 1, vector<long long>(m + 1, NEG_INF));
 
+    // 连起点都无法存活，当前初始生命值就直接不合法。
     long long start_health = initial_health + grid[1][1];
     if (start_health < 1) {
         return false;
@@ -67,18 +68,23 @@ bool canSurvive(const vector<vector<long long>>& grid, long long initial_health)
 
             long long best_previous = NEG_INF;
             if (i > 1) {
+                // 可以从上方转移过来。
                 best_previous = max(best_previous, dp[i - 1][j]);
             }
             if (j > 1) {
+                // 也可以从左方转移过来。
                 best_previous = max(best_previous, dp[i][j - 1]);
             }
 
             if (best_previous == NEG_INF) {
+                // 上方和左方都不可达，则当前格子也不可达。
                 continue;
             }
 
+            // 进入当前格子后的生命值 = 进入前最好状态 + 当前格子的增减值。
             long long current_health = best_previous + grid[i][j];
             if (current_health >= 1) {
+                // 生命值始终要至少为 1，合法状态才保留下来。
                 dp[i][j] = max(dp[i][j], current_health);
             }
         }
@@ -103,6 +109,7 @@ int main() {
         for (int j = 1; j <= m; ++j) {
             cin >> grid[i][j];
             if (grid[i][j] < 0) {
+                // 用所有负值损失之和构造一个保守但一定够大的右边界。
                 total_negative_loss += -grid[i][j];
             }
         }
@@ -114,8 +121,10 @@ int main() {
     while (left < right) {
         long long mid = left + (right - left) / 2;
         if (canSurvive(grid, mid)) {
+            // mid 已经可行，继续尝试更小初始生命值。
             right = mid;
         } else {
+            // mid 不够，说明初始生命值还要更大。
             left = mid + 1;
         }
     }
