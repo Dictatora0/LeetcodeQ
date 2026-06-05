@@ -50,11 +50,13 @@ int main() {
         return 0;
     }
 
+    // 这里用 1-based 存数组，和“前 i 个数的前缀和”更容易对应。
     vector<long long> a(n + 1, 0);
     for (int i = 1; i <= n; ++i) {
         cin >> a[i];
     }
 
+    // count[sum] 表示某个前缀和 sum 之前出现过多少次。
     unordered_map<long long, long long> count;
     // 前缀和 0 先出现一次，表示“空前缀”。
     count[0] = 1;
@@ -65,6 +67,8 @@ int main() {
     for (int i = 1; i <= n; ++i) {
         prefix_sum += a[i];
 
+        // 如果之前某个前缀和是 prefix_sum - k，
+        // 那么从那个前缀之后到当前位置的区间和就是 k。
         long long needed = prefix_sum - k;
         if (count.count(needed)) {
             // 每个之前出现过的 needed，都能和当前位置组成一个合法子数组。

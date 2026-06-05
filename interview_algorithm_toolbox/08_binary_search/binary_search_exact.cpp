@@ -40,6 +40,7 @@ int main() {
         cin >> a[i];
     }
 
+    // 闭区间写法：当前仍需搜索的答案范围是 [left, right]。
     int left = 0;
     int right = n - 1;
 
@@ -47,6 +48,7 @@ int main() {
         // 用这种写法求 mid，可以避免 left + right 直接相加溢出。
         int mid = left + (right - left) / 2;
         if (a[mid] == target) {
+            // 找到目标就可以直接返回，因为本题只要求任意一个精确位置。
             cout << mid << '\n';
             return 0;
         }
@@ -59,6 +61,7 @@ int main() {
         }
     }
 
+    // 如果循环结束仍然没提前返回，说明数组里不存在 target。
     cout << -1 << '\n';
     return 0;
 }

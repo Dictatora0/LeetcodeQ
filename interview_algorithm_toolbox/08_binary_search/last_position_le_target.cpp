@@ -40,10 +40,12 @@ int main() {
         cin >> a[i];
     }
 
+    // 这里仍然用左闭右开 [left, right) 去找“第一个 > target”的位置。
     int left = 0;
     int right = n;
 
     while (left < right) {
+        // mid 是当前尝试的位置。
         int mid = left + (right - left) / 2;
         if (a[mid] > target) {
             // mid 已经太大，右边更不可能是答案。
@@ -55,6 +57,7 @@ int main() {
     }
 
     // 循环结束后，left 指向第一个 > target 的位置，所以答案是 left - 1。
+    // 如果所有元素都 > target，那么 left 会停在 0，此时输出 -1，表示不存在 <= target 的位置。
     cout << (left - 1) << '\n';
     return 0;
 }

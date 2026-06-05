@@ -42,11 +42,16 @@ int main() {
         cin >> a[i];
     }
 
-    // lower_bound：第一个 >= target 的位置。
+    // 前提是数组已经有序。
+    // lower_bound / upper_bound 都是在有序区间上做二分。
+    // lower_bound 会返回一个迭代器，指向第一个 >= target 的元素。
+    // 减去 a.begin() 后，才能把它转换成 0-based 下标。
     int lower = static_cast<int>(lower_bound(a.begin(), a.end(), target) - a.begin());
-    // upper_bound：第一个 > target 的位置。
+    // upper_bound 同理，返回的是第一个 > target 的位置。
     int upper = static_cast<int>(upper_bound(a.begin(), a.end(), target) - a.begin());
 
+    // 这里输出的是“位置”，不是具体元素值。
+    // 如果目标不存在且比所有元素都大，这两个位置都可能等于 n。
     cout << "lower_bound " << lower << '\n';
     cout << "upper_bound " << upper << '\n';
     return 0;

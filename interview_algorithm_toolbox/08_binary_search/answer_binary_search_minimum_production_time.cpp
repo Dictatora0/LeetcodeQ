@@ -40,6 +40,7 @@
 using namespace std;
 
 bool canProduce(const vector<long long>& time_cost, long long target, long long total_time) {
+    // produced 表示在 total_time 时间内，所有机器总共能生产多少件。
     long long produced = 0;
 
     for (long long cost : time_cost) {
@@ -52,6 +53,7 @@ bool canProduce(const vector<long long>& time_cost, long long target, long long 
         }
     }
 
+    // 扫完所有机器后仍达不到 target，说明 total_time 不够。
     return false;
 }
 
@@ -66,6 +68,7 @@ int main() {
     }
 
     vector<long long> time_cost(n);
+    // min_time_cost 记录最快机器的单件生产时间。
     long long min_time_cost = 0;
 
     for (int i = 0; i < n; ++i) {
@@ -77,9 +80,11 @@ int main() {
     }
 
     long long left = 1;
+    // 最快机器单独生产 target 件所需时间，一定是可行上界。
     long long right = min_time_cost * target;
 
     while (left < right) {
+        // mid 表示当前尝试的总生产时间。
         long long mid = left + (right - left) / 2;
         if (canProduce(time_cost, target, mid)) {
             // 当前时间已经够，继续尝试更短时间。
@@ -90,6 +95,7 @@ int main() {
         }
     }
 
+    // 二分收缩完成后，left 就是最短可行时间。
     cout << left << '\n';
     return 0;
 }

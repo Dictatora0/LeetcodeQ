@@ -52,7 +52,9 @@
 using namespace std;
 
 bool canSplitWithinMParts(const vector<long long>& a, int m, long long limit) {
+    // used_parts 表示在 limit 限制下，最少需要分成多少段。
     int used_parts = 1;
+    // current_sum 表示当前这一段已经累积了多少和。
     long long current_sum = 0;
 
     for (long long x : a) {
@@ -62,10 +64,12 @@ bool canSplitWithinMParts(const vector<long long>& a, int m, long long limit) {
         } else {
             // 一旦超 limit，只能另开一段。
             ++used_parts;
+            // 新段的第一项就是当前这个放不下的元素。
             current_sum = x;
         }
     }
 
+    // 如果最少只需 used_parts 段，并且它不超过 m，说明 limit 可行。
     return used_parts <= m;
 }
 
@@ -79,6 +83,7 @@ int main() {
     }
 
     vector<long long> a(n);
+    // left 是最小可能答案，right 是最大可能答案。
     long long left = 0;
     long long right = 0;
 
@@ -91,6 +96,7 @@ int main() {
     }
 
     while (left < right) {
+        // mid 是当前尝试的“最大允许段和”。
         long long mid = left + (right - left) / 2;
         if (canSplitWithinMParts(a, m, mid)) {
             // mid 可行，尝试继续压小最大段和。
@@ -101,6 +107,7 @@ int main() {
         }
     }
 
+    // 最终 left 停在最小可行的最大段和上。
     cout << left << '\n';
     return 0;
 }

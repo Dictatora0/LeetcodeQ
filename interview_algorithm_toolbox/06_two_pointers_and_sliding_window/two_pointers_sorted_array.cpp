@@ -41,6 +41,7 @@ int main() {
         cin >> a[i];
     }
 
+    // left 从最小值出发，right 从最大值出发。
     int left = 1;
     int right = n;
 
@@ -53,13 +54,16 @@ int main() {
         }
         if (current_sum < target) {
             // 和太小，需要更大的数。
+            // 右指针左移只会让和更小，所以这里只能移动 left。
             ++left;
         } else {
             // 和太大，需要更小的数。
+            // 左指针右移只会让和更大，所以这里只能移动 right。
             --right;
         }
     }
 
+    // 双指针相遇仍没返回，说明不存在这样的一对数。
     cout << "-1 -1\n";
     return 0;
 }

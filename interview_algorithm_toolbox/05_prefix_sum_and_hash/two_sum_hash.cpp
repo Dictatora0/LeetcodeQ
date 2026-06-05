@@ -38,6 +38,7 @@ int main() {
     }
 
     vector<long long> a(n + 1, 0);
+    // first_position[value] 记录某个值最早出现的位置。
     unordered_map<long long, int> first_position;
 
     for (int i = 1; i <= n; ++i) {
@@ -45,18 +46,22 @@ int main() {
     }
 
     for (int i = 1; i <= n; ++i) {
+        // need 是当前数想要配成 target 时，还缺的那个值。
         long long need = target - a[i];
         // 如果补数之前已经出现过，就找到了一组合法答案。
         if (first_position.count(need)) {
             cout << first_position[need] << ' ' << i << '\n';
             return 0;
         }
+        // 这里必须先查补数，再插入当前值。
+        // 否则当 target = 2 * a[i] 时，当前元素可能会错误地和自己配对。
         // 只记录第一次出现位置，让下标更稳定，也避免覆盖更早位置。
         if (!first_position.count(a[i])) {
             first_position[a[i]] = i;
         }
     }
 
+    // 直到扫描结束都没找到，说明不存在这样的两个位置。
     cout << "-1 -1\n";
     return 0;
 }

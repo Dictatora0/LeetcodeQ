@@ -50,7 +50,9 @@ int main() {
     }
 
     vector<int> a(n);
+    // ordered_frequency 用于“按 key 升序输出频率表”。
     map<int, int> ordered_frequency;
+    // hash_frequency 用于“按值快速查询出现次数”。
     unordered_map<int, int> hash_frequency;
 
     for (int i = 0; i < n; ++i) {

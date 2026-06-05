@@ -47,18 +47,25 @@ int main() {
         cin >> cookie[i];
     }
 
+    // 先把胃口从小到大排好，便于“先满足最容易满足的人”。
     sort(appetite.begin(), appetite.end());
+    // 也把饼干从小到大排好，便于从最小可用资源开始尝试匹配。
     sort(cookie.begin(), cookie.end());
 
+    // i 指向当前还没被满足的最小胃口。
     int i = 0;
+    // j 指向当前还没被使用的最小饼干。
     int j = 0;
+    // satisfied 统计目前已经成功满足了多少个小朋友。
     int satisfied = 0;
 
     while (i < n && j < m) {
         if (cookie[j] >= appetite[i]) {
             // 当前最小可用饼干已经能满足当前最小胃口，立刻匹配最省资源。
             ++satisfied;
+            // 当前小朋友已经被满足，去看下一个更大的胃口。
             ++i;
+            // 当前饼干已经被用掉，去看下一块饼干。
             ++j;
         } else {
             // 当前饼干太小，连最小胃口都满足不了，只能尝试更大的饼干。

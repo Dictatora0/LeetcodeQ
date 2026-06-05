@@ -53,12 +53,14 @@ int main() {
         return 0;
     }
 
+    // window_sum 始终表示“当前这个长度为 k 的窗口”的元素和。
     long long window_sum = 0;
     for (int i = 0; i < k; ++i) {
         // 先求出第一个长度为 k 的窗口和。
         window_sum += a[i];
     }
 
+    // best 保存遍历到目前为止看到的最大窗口和。
     long long best = window_sum;
 
     for (int right = k; right < n; ++right) {
@@ -66,6 +68,7 @@ int main() {
         window_sum += a[right];
         window_sum -= a[right - k];
 
+        // 每次滑动完成后，window_sum 对应的新窗口是 [right - k + 1, right]。
         if (window_sum > best) {
             best = window_sum;
         }

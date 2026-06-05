@@ -40,10 +40,13 @@ int main() {
         cin >> a[i];
     }
 
+    // 当前搜索区间是左闭右开 [left, right)。
+    // 也就是说，所有可能成为答案的位置，都落在这个区间里。
     int left = 0;
     int right = n;
 
     while (left < right) {
+        // mid 是当前候选位置，用安全写法避免 left + right 直接相加溢出。
         int mid = left + (right - left) / 2;
         if (a[mid] >= target) {
             // mid 已经满足条件，但还要继续向左找更早的位置。
@@ -54,6 +57,8 @@ int main() {
         }
     }
 
+    // 循环结束时 left == right，并且它们都停在第一个 >= target 的位置。
+    // 如果数组里所有数都 < target，那么这里会返回 n。
     cout << left << '\n';
     return 0;
 }

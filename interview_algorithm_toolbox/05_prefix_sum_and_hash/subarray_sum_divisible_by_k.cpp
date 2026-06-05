@@ -54,6 +54,7 @@ int main() {
         cin >> a[i];
     }
 
+    // remainder_count[r] 表示“前缀和对 k 取模后等于 r”的情况出现了多少次。
     unordered_map<long long, long long> remainder_count;
     // 余数 0 先出现一次，对应“前缀和还没开始累加”的状态。
     remainder_count[0] = 1;
@@ -74,6 +75,7 @@ int main() {
         ++remainder_count[remainder];
     }
 
+    // 所有位置的贡献统计完后，answer 就是合法子数组个数。
     cout << answer << '\n';
     return 0;
 }

@@ -37,8 +37,10 @@ struct Interval {
 
 bool compareByRight(const Interval& a, const Interval& b) {
     if (a.right != b.right) {
+        // 右端点更小的区间优先排前面，因为它结束更早，更有利于给后续腾空间。
         return a.right < b.right;
     }
+    // 右端点相同只是补充规则，保证排序结果稳定、可解释。
     return a.left < b.left;
 }
 
@@ -56,9 +58,13 @@ int main() {
         cin >> intervals[i].left >> intervals[i].right;
     }
 
+    // 按右端点升序排序，是这类“最多选多少个互不冲突区间”题的核心。
     sort(intervals.begin(), intervals.end(), compareByRight);
 
+    // answer 记录已经选了多少个区间。
     int answer = 0;
+    // last_right 表示上一个已选区间的右端点。
+    // 初始设成很小，表示一开始什么都没选，任何区间都可以尝试。
     int last_right = -2000000000;
 
     for (const Interval& interval : intervals) {
@@ -67,6 +73,9 @@ int main() {
             ++answer;
             // 记录最新已选区间的右端点，供后面继续判冲突。
             last_right = interval.right;
+        } else {
+            // 如果当前区间和已选区间冲突，就直接跳过。
+            // 因为它结束得不比已选区间更早，留下它不会更优。
         }
     }
 

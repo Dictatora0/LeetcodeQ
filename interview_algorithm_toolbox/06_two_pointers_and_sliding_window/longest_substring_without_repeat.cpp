@@ -35,8 +35,11 @@ int main() {
         return 0;
     }
 
+    // last_position[ch] 记录字符 ch 最近一次出现的位置。
     unordered_map<char, int> last_position;
+    // left 表示当前无重复窗口的左端点。
     int left = 0;
+    // best_length 记录目前见过的最长无重复子串长度。
     int best_length = 0;
 
     for (int right = 0; right < static_cast<int>(s.size()); ++right) {
@@ -46,6 +49,7 @@ int main() {
         }
 
         // 更新当前字符的最近出现位置。
+        // 这一步要放在更新答案前后都可以，但必须保证下一轮能看到“最新一次出现位置”。
         last_position[s[right]] = right;
         // 当前窗口 [left, right] 内没有重复字符。
         best_length = max(best_length, right - left + 1);

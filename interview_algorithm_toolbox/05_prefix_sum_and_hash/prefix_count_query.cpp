@@ -44,11 +44,13 @@ int main() {
         return 0;
     }
 
+    // prefix[i] 表示前 i 个数中“满足条件”的元素个数。
     vector<int> prefix(n + 1, 0);
     for (int i = 1; i <= n; ++i) {
         int x;
         cin >> x;
         // 先把“是否为奇数”转成 0/1，再做前缀和。
+        // 如果 x 是奇数，本轮给前缀计数加 1；否则加 0。
         prefix[i] = prefix[i - 1] + (x % 2 != 0 ? 1 : 0);
     }
 
@@ -56,6 +58,8 @@ int main() {
         int l, r;
         cin >> l >> r;
         // 区间奇数个数就是这段 0/1 数组的区间和。
+        // prefix[r] 覆盖了前 r 个数，prefix[l - 1] 覆盖了前 l-1 个数。
+        // 两者相减，剩下的正好是 [l, r] 这段的贡献。
         cout << prefix[r] - prefix[l - 1] << '\n';
     }
 

@@ -41,12 +41,14 @@ int main() {
         return 0;
     }
 
+    // prefix[i] 表示前 i 个数的和，因此下标从 0 开到 n 最稳。
     vector<long long> prefix(n + 1, 0);
     for (int i = 1; i <= n; ++i) {
         long long x;
         cin >> x;
         // prefix[i] 表示前 i 个数的和。
         // 这样后面就能用“两个前缀和相减”直接得到任意区间和。
+        // 这里使用 1-based 前缀和，所以 prefix[0] 自然就是“前 0 个数的和”。
         prefix[i] = prefix[i - 1] + x;
     }
 
@@ -54,6 +56,7 @@ int main() {
         int l, r;
         cin >> l >> r;
         // 区间 [l, r] 的和 = 前 r 个数的和 - 前 l-1 个数的和。
+        // 这个公式之所以成立，是因为前 l-1 个数的部分被相减后正好抵消掉了。
         cout << prefix[r] - prefix[l - 1] << '\n';
     }
 

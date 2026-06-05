@@ -46,12 +46,17 @@ int main() {
         return 0;
     }
 
+    // slow 指向“去重结果的最后一个有效位置”。
     int slow = 0;
     for (int fast = 1; fast < n; ++fast) {
+        // 由于数组有序，相同元素一定挨在一起。
+        // 因此只需拿 a[fast] 和当前去重结果尾部 a[slow] 比较。
         if (a[fast] != a[slow]) {
             // fast 找到一个新值，就把它覆盖到去重结果的下一个位置。
             ++slow;
             a[slow] = a[fast];
+        } else {
+            // 如果 a[fast] == a[slow]，说明它只是重复值，直接跳过即可。
         }
     }
 
@@ -60,6 +65,7 @@ int main() {
     cout << new_length << '\n';
     for (int i = 0; i < new_length; ++i) {
         if (i > 0) {
+            // 控制输出格式，避免最后多空格通常也是笔试常见细节。
             cout << ' ';
         }
         cout << a[i];

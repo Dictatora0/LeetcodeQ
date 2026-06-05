@@ -41,7 +41,9 @@
 using namespace std;
 
 bool canFinish(const vector<int>& weights, int days, long long capacity) {
+    // used_days 表示按当前 capacity 模拟后，一共需要多少天。
     int used_days = 1;
+    // current_load 表示当前这一天已经装了多少重量。
     long long current_load = 0;
 
     for (int weight : weights) {
@@ -51,10 +53,12 @@ bool canFinish(const vector<int>& weights, int days, long long capacity) {
         } else {
             // 再装就超容量，只能新开一天。
             ++used_days;
+            // 新开一天后，当前货物必须在这一天装走。
             current_load = weight;
         }
     }
 
+    // 天数不超过限制，说明这个容量是可行的。
     return used_days <= days;
 }
 
@@ -68,6 +72,7 @@ int main() {
     }
 
     vector<int> weights(n);
+    // left 是答案下界，right 是答案上界。
     long long left = 0;
     long long right = 0;
 
@@ -80,6 +85,7 @@ int main() {
     }
 
     while (left < right) {
+        // mid 表示当前尝试的运输容量。
         long long mid = left + (right - left) / 2;
         if (canFinish(weights, days, mid)) {
             // mid 已经可行，继续尝试更小容量。
@@ -90,6 +96,7 @@ int main() {
         }
     }
 
+    // 循环结束时 left == right，并且停在最小可行容量上。
     cout << left << '\n';
     return 0;
 }

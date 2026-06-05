@@ -42,9 +42,11 @@ int main() {
         return 0;
     }
 
+    // freq[i] 表示字母 ('a' + i) 一共出现了多少次。
     vector<int> freq(26, 0);
     for (char ch : s) {
         // 用 ch - 'a' 把字符映射到 0..25。
+        // 例如 'a' - 'a' = 0，'c' - 'a' = 2。
         ++freq[ch - 'a'];
     }
 
@@ -54,6 +56,7 @@ int main() {
         char query;
         cin >> query;
         // 查询时也按同样的映射方式取下标。
+        // 因为前面已经把整串统计完了，所以单次查询不需要再扫字符串。
         cout << freq[query - 'a'] << '\n';
     }
 

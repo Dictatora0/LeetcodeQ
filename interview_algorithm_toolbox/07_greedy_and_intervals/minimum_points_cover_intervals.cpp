@@ -43,8 +43,10 @@ struct Segment {
 
 bool compareByRightEnd(const Segment& a, const Segment& b) {
     if (a.right != b.right) {
+        // 右端点更早结束的区间先处理，便于尽早确定必须放点的位置。
         return a.right < b.right;
     }
+    // 右端点相同时按左端点升序排，作为补充规则。
     return a.left < b.left;
 }
 
@@ -62,9 +64,13 @@ int main() {
         cin >> segments[i].left >> segments[i].right;
     }
 
+    // 先按右端点排序，后面才能稳定地把点放在“当前最早结束区间”的右端。
     sort(segments.begin(), segments.end(), compareByRightEnd);
 
+    // answer 统计目前一共放了多少个点。
     int answer = 0;
+    // last_point 记录上一次放置的点的位置。
+    // 初始设成很小，表示还没有任何点。
     int last_point = -2000000000;
 
     for (const Segment& segment : segments) {
@@ -73,6 +79,8 @@ int main() {
             ++answer;
             // 把点放在当前区间最右端，能尽量兼顾后面更多区间。
             last_point = segment.right;
+        } else {
+            // 如果 last_point 已经落在当前区间内，说明当前区间已经被覆盖，不需要新增点。
         }
     }
 

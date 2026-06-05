@@ -56,6 +56,7 @@ int main() {
     // 前缀和 0 在位置 0 先出现一次，方便统计从开头开始的合法区间。
     first_position[0] = 0;
 
+    // prefix_sum 是扫描到当前位置时的总和。
     long long prefix_sum = 0;
     int best_length = 0;
 
@@ -79,6 +80,7 @@ int main() {
         }
     }
 
+    // 所有位置都扫描完后，best_length 就是最长合法长度。
     cout << best_length << '\n';
     return 0;
 }

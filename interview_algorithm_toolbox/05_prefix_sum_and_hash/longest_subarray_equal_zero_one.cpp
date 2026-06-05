@@ -50,6 +50,7 @@ int main() {
     // 前缀和 0 在位置 0 先出现一次。
     first_position[0] = 0;
 
+    // prefix_sum 记录把 0 看成 -1、1 看成 +1 后的前缀和。
     int prefix_sum = 0;
     int best_length = 0;
 
@@ -74,6 +75,7 @@ int main() {
         }
     }
 
+    // best_length 记录所有合法区间里的最大长度。
     cout << best_length << '\n';
     return 0;
 }

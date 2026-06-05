@@ -42,7 +42,9 @@ int main() {
     }
 
     int left = 0;
+    // window_sum 表示当前窗口 [left, right] 的元素和。
     long long window_sum = 0;
+    // best_length 记录当前找到的最长合法窗口长度。
     int best_length = 0;
 
     for (int right = 0; right < n; ++right) {

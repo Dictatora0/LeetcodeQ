@@ -37,8 +37,10 @@ struct PairNode {
 
 bool compareBySecond(const PairNode& a, const PairNode& b) {
     if (a.second_value != b.second_value) {
+        // second 更小的 pair 更早结束，优先选它通常更利于接更多后续 pair。
         return a.second_value < b.second_value;
     }
+    // second 相同就按 first 升序排，作为稳定的补充规则。
     return a.first_value < b.first_value;
 }
 
@@ -56,9 +58,13 @@ int main() {
         cin >> pairs[i].first_value >> pairs[i].second_value;
     }
 
+    // 这一步把题目转成“按结束点早的区间优先选”的经典贪心。
     sort(pairs.begin(), pairs.end(), compareBySecond);
 
+    // answer 统计当前最长链的长度。
     int answer = 0;
+    // last_second 记录当前链尾 pair 的 second。
+    // 初始化成很小，表示第一对 pair 基本都能接上。
     int last_second = -2000000000;
 
     for (const PairNode& pair_node : pairs) {
@@ -67,6 +73,9 @@ int main() {
             ++answer;
             // 选了当前 pair 后，新的链尾就是它的 second。
             last_second = pair_node.second_value;
+        } else {
+            // 当前 pair 接不上已有链，就跳过。
+            // 由于排序保证了它不会比已选链尾结束得更早，保留它没有额外优势。
         }
     }
 

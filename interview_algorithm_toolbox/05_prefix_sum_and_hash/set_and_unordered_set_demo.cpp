@@ -40,7 +40,9 @@ int main() {
         return 0;
     }
 
+    // ordered_unique 保存去重后的有序结果。
     set<int> ordered_unique;
+    // seen 只负责快速判断“之前是否出现过”。
     unordered_set<int> seen;
     bool has_duplicate = false;
 
@@ -59,6 +61,7 @@ int main() {
     }
 
     cout << "duplicate " << (has_duplicate ? "YES" : "NO") << '\n';
+    // ordered_unique.size() 就是不同元素个数。
     cout << "unique_count " << ordered_unique.size() << '\n';
     cout << "ordered";
     for (int x : ordered_unique) {
