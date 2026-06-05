@@ -37,6 +37,23 @@ david 3 120
 - 和 `struct_multi_key_sort.cpp` 一样，关键在于把比较器拆层写清楚。
 */
 
+/*
+5 分钟应急写法：
+1. 先把结构体 `Player` 写出来，只保留 `name`、`solved`、`penalty` 三个字段。
+2. 立刻写普通比较函数，顺序固定为：
+   - `solved` 降序
+   - `penalty` 升序
+   - `name` 升序
+3. 主程序里只做三件事：
+   - 读入
+   - `sort(players.begin(), players.end(), comparePlayer);`
+   - 逐行输出
+4. 如果时间特别紧，不要再纠结 `stable_sort`、Lambda、封装类，普通结构体 + 普通比较函数最稳。
+5. 最后 10 秒只检查：
+   - 比较器有没有写成 `>=` / `<=`
+   - 名字字典序方向有没有写反
+*/
+
 #include <algorithm>
 #include <iostream>
 #include <string>

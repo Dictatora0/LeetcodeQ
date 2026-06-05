@@ -17,3 +17,4 @@
 - 所有数非负时：滑动窗口最稳
 - 固定长度窗口优先考虑“减左加右”
 - 无重复子串：窗口 + 上次出现位置
+- 如果数组里允许负数，普通“按和缩窗”的滑窗可能失效，可对照 [../05_prefix_sum_and_hash/why_sliding_window_fails_with_negative_numbers.md](../05_prefix_sum_and_hash/why_sliding_window_fails_with_negative_numbers.md)

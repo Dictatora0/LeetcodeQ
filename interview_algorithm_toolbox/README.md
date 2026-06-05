@@ -61,13 +61,13 @@
 - `04_bitwise_operations/`
   解决二进制表示、`bitset`、取位、改位、末尾连续 1、删最低位 1、`lowbit` 等问题。
 - `05_prefix_sum_and_hash/`
-  解决前缀和、前缀计数、前缀和取模统计、和为 k 的子数组个数、和为 k 的最长区间、最长前缀状态区间、频次数组、`map` / `unordered_map`、`set` / `unordered_set`。
+  解决前缀和、前缀计数、前缀和取模统计、和为 k 的子数组个数、和为 k 的最长区间、负数导致滑窗失效、最长前缀状态区间、频次数组、`map` / `unordered_map`、`set` / `unordered_set`。
 - `06_two_pointers_and_sliding_window/`
   解决有序数组双指针、去重、固定窗口、最长连续区间、无重复子串。
 - `07_greedy_and_intervals/`
   解决简单贪心、区间调度、区间覆盖、排序后逐步选择。
 - `08_binary_search/`
-  解决手写二分、边界二分、`lower_bound`、`upper_bound`、答案二分、贪心 check、数学 check、DP check。
+  解决手写二分、边界二分、`lower_bound`、`upper_bound`、答案二分模板、左右边界取法，以及贪心 check、数学 check、DP check 三种识别方式。
 - `09_basic_math/`
   解决奇偶、整除、取模、`gcd`、`lcm`、等差 / 等比数列。
 - `10_basic_dp/`

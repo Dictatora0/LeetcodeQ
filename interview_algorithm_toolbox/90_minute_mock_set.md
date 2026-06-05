@@ -88,6 +88,7 @@ david 3 120
 ### 题解链接
 
 - [problem_a_ranklist_solution.cpp](./14_mock_problem_solutions/problem_a_ranklist_solution.cpp)
+  题解内含“5 分钟应急写法”。
 
 ### 参考复盘路线
 
@@ -141,6 +142,7 @@ david 3 120
 ### 题解链接
 
 - [problem_b_longest_balanced_zero_one_solution.cpp](./14_mock_problem_solutions/problem_b_longest_balanced_zero_one_solution.cpp)
+  题解内含“5 分钟应急写法”。
 
 ### 参考复盘路线
 
@@ -209,6 +211,7 @@ weight value
 ### 题解链接
 
 - [problem_c_zero_one_knapsack_solution.cpp](./14_mock_problem_solutions/problem_c_zero_one_knapsack_solution.cpp)
+  题解内含“5 分钟应急写法”。
 
 ### 参考复盘路线
 

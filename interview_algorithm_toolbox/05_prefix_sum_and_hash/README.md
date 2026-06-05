@@ -10,11 +10,12 @@
 4. `subarray_count_sum_equals_k.cpp`
 5. `longest_subarray_sum_equals_k.cpp`
 6. `sum_equals_k_compare.md`
-7. `longest_subarray_equal_zero_one.cpp`
-8. `frequency_array_26_letters.cpp`
-9. `map_and_unordered_map_frequency.cpp`
-10. `set_and_unordered_set_demo.cpp`
-11. `two_sum_hash.cpp`
+7. `why_sliding_window_fails_with_negative_numbers.md`
+8. `longest_subarray_equal_zero_one.cpp`
+9. `frequency_array_26_letters.cpp`
+10. `map_and_unordered_map_frequency.cpp`
+11. `set_and_unordered_set_demo.cpp`
+12. `two_sum_hash.cpp`
 
 ## 本目录重点
 
@@ -24,6 +25,7 @@
 - 和为 k 的子数组个数：前缀和 + 哈希统计出现次数
 - 和为 k 的最长区间：前缀和 + 哈希记录第一次出现位置
 - 最长满足条件区间：前缀状态 + 哈希记录第一次出现位置
+- 数组里有负数时：依赖区间和单调性的普通滑窗往往失效
 - 值域小：优先频次数组
 - 需要按键有序输出：`map` / `set`
 - 只关心均摊查询速度：`unordered_map` / `unordered_set`
